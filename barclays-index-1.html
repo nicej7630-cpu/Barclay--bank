@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Itrace Bank Financial — Digital-First Banking</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#00195A;--blue:#003087;--blue2:#00579F;--gold:#FFD700;--light:#E8F0FE;--white:#FFFFFF;--text:#1a1a2e}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
+/* NAV */
+nav{background:var(--navy);padding:0 2rem;height:70px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,50,0.3)}
+.nav-logo{display:flex;align-items:center;gap:0.75rem;cursor:pointer}
+.nav-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#00579F,#003087);border:2px solid rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;color:white;font-size:1.1rem}
+.nav-brand h2{font-size:1rem;font-weight:800;color:white}
+.nav-brand p{font-size:0.6rem;color:rgba(255,255,255,0.5)}
+.nav-links{display:flex;align-items:center;gap:1.5rem}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:white}
+.nav-btns{display:flex;gap:0.75rem;align-items:center}
+.btn-login{padding:0.5rem 1.25rem;border:1px solid rgba(255,255,255,0.3);background:transparent;color:white;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+.btn-login:hover{background:rgba(255,255,255,0.1)}
+.btn-open{padding:0.5rem 1.25rem;background:var(--gold);color:var(--navy);border:none;border-radius:8px;font-size:0.82rem;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+.btn-open:hover{opacity:0.9;transform:translateY(-1px)}
+/* HERO */
+.hero{background:linear-gradient(135deg,#00195A 0%,#003087 50%,#00579F 100%);padding:5rem 2rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,215,0,0.08) 0%,transparent 70%);border-radius:50%;top:-200px;right:-100px;pointer-events:none}
+.hero::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(0,87,159,0.4) 0%,transparent 70%);border-radius:50%;bottom:-150px;left:-100px;pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);border-radius:20px;padding:0.35rem 0.85rem;font-size:0.72rem;color:var(--gold);font-weight:700;margin-bottom:1.25rem}
+.hero h1{font-size:2.8rem;font-weight:900;color:white;line-height:1.15;margin-bottom:1rem}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:1rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:2rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-hero-primary{padding:0.9rem 2rem;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-size:0.95rem;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+.btn-hero-primary:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,0.3)}
+.btn-hero-secondary{padding:0.9rem 2rem;background:transparent;color:white;border:2px solid rgba(255,255,255,0.3);border-radius:10px;font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center}
+.btn-hero-secondary:hover{background:rgba(255,255,255,0.1);border-color:white}
+/* HERO CARD */
+.hero-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:2rem;backdrop-filter:blur(10px)}
+.hero-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.hc-bank{font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:0.08em}
+.hc-chip{width:36px;height:26px;background:linear-gradient(135deg,var(--gold),#FFA500);border-radius:4px}
+.hc-num{font-family:monospace;font-size:1.1rem;letter-spacing:0.2em;color:white;margin-bottom:1.5rem}
+.hc-bot{display:flex;justify-content:space-between;align-items:flex-end}
+.hc-field label{font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;display:block;margin-bottom:0.15rem}
+.hc-field strong{font-size:0.85rem;font-weight:700;color:white}
+.hc-visa{font-size:1.4rem;font-weight:900;color:white;font-style:italic}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.85rem;margin-top:1.5rem}
+.hs{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.85rem;text-align:center}
+.hs-val{font-size:1.2rem;font-weight:900;color:var(--gold);margin-bottom:0.15rem}
+.hs-label{font-size:0.62rem;color:rgba(255,255,255,0.5)}
+/* FEATURES */
+.features{padding:5rem 2rem;background:var(--white)}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-badge{display:inline-flex;align-items:center;gap:0.35rem;background:rgba(0,48,135,0.08);border:1px solid rgba(0,48,135,0.15);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.72rem;color:var(--blue);font-weight:700;margin-bottom:1rem}
+.section-title{font-size:2rem;font-weight:900;color:var(--navy);margin-bottom:0.75rem}
+.section-sub{font-size:1rem;color:#666;margin-bottom:3rem;max-width:600px}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.feat-card{background:white;border:1px solid #E8F0FE;border-radius:16px;padding:1.75rem;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,50,0.04)}
+.feat-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,48,135,0.1)}
+.feat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+.feat-card h3{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:0.5rem}
+.feat-card p{font-size:0.82rem;color:#666;line-height:1.65}
+/* HYSA */
+.hysa-section{background:linear-gradient(135deg,#00195A,#003087);padding:5rem 2rem}
+.hysa-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hysa-tag{display:inline-block;background:var(--gold);color:var(--navy);font-size:0.7rem;font-weight:800;padding:0.25rem 0.75rem;border-radius:20px;margin-bottom:1rem;letter-spacing:0.06em}
+.hysa-section h2{font-size:2rem;font-weight:900;color:white;margin-bottom:1rem;line-height:1.2}
+.hysa-section p{color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:1.5rem}
+.hysa-list{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem}
+.hysa-item{display:flex;align-items:flex-start;gap:0.75rem;color:rgba(255,255,255,0.85);font-size:0.85rem}
+.hysa-item::before{content:'✅';flex-shrink:0}
+.rate-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,215,0,0.3);border-radius:16px;padding:2rem;text-align:center}
+.rate-label{font-size:0.72rem;color:rgba(255,215,0,0.6);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem}
+.rate-val{font-size:3.5rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:0.35rem}
+.rate-sub{font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:1.5rem}
+.rate-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem}
+.rg-item{background:rgba(255,255,255,0.06);border-radius:10px;padding:0.85rem;text-align:center}
+.rg-val{font-size:1.1rem;font-weight:800;color:white;margin-bottom:0.2rem}
+.rg-label{font-size:0.62rem;color:rgba(255,255,255,0.45)}
+/* CD SECTION */
+.cd-section{padding:5rem 2rem;background:#F8FAFF}
+.cd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-top:2.5rem}
+.cd-card{background:white;border:2px solid #E8F0FE;border-radius:16px;padding:1.5rem;text-align:center;transition:all 0.2s;cursor:pointer}
+.cd-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,48,135,0.1)}
+.cd-card.featured{border-color:var(--gold);background:linear-gradient(135deg,#00195A,#003087);color:white}
+.cd-term{font-size:0.72rem;color:#999;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
+.cd-card.featured .cd-term{color:rgba(255,255,255,0.6)}
+.cd-rate{font-size:2rem;font-weight:900;color:var(--blue);margin-bottom:0.25rem}
+.cd-card.featured .cd-rate{color:var(--gold)}
+.cd-apy{font-size:0.72rem;color:#666;margin-bottom:1rem}
+.cd-card.featured .cd-apy{color:rgba(255,255,255,0.6)}
+.cd-features{list-style:none;text-align:left;font-size:0.78rem;color:#666;display:flex;flex-direction:column;gap:0.35rem;margin-bottom:1.25rem}
+.cd-card.featured .cd-features{color:rgba(255,255,255,0.75)}
+.cd-features li::before{content:'• ';color:var(--blue)}
+.cd-card.featured .cd-features li::before{color:var(--gold)}
+.cd-btn{width:100%;padding:0.65rem;border:2px solid var(--blue);background:transparent;color:var(--blue);border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+.cd-btn:hover{background:var(--blue);color:white}
+.cd-card.featured .cd-btn{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+/* FICO */
+.fico-section{padding:5rem 2rem;background:white}
+.fico-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.fico-display{background:linear-gradient(135deg,#00195A,#003087);border-radius:20px;padding:2.5rem;text-align:center;color:white}
+.fico-score-label{font-size:0.72rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem}
+.fico-score{font-size:4rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:0.35rem}
+.fico-rating{display:inline-block;background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.75rem;color:#34D399;font-weight:700;margin-bottom:1.5rem}
+.fico-bar{background:rgba(255,255,255,0.1);border-radius:20px;height:12px;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.fico-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#EF4444,#F59E0B,#10B981);width:100%}
+.fico-bar-marker{position:absolute;top:-4px;left:72%;width:20px;height:20px;background:var(--gold);border-radius:50%;border:3px solid white;transform:translateX(-50%)}
+.fico-range{display:flex;justify-content:space-between;font-size:0.62rem;color:rgba(255,255,255,0.4)}
+.fico-benefits{list-style:none;display:flex;flex-direction:column;gap:0.85rem}
+.fico-benefit{display:flex;align-items:flex-start;gap:0.75rem}
+.fico-benefit-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.fico-benefit h4{font-size:0.88rem;font-weight:700;color:var(--navy);margin-bottom:0.2rem}
+.fico-benefit p{font-size:0.75rem;color:#666;line-height:1.5}
+
+.aarp-section{background:linear-gradient(135deg,#F8FAFF,#E8F0FE);padding:5rem 2rem}
+.aarp-inner{max-width:1100px;margin:0 auto}
+.aarp-card{background:white;border-radius:20px;padding:3rem;box-shadow:0 8px 32px rgba(0,48,135,0.08);display:grid;grid-template-columns:1fr 2fr;gap:3rem;align-items:center}
+.aarp-logo-wrap{text-align:center}
+.aarp-logo{width:100px;height:100px;background:linear-gradient(135deg,#00195A,#003087);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:900;color:white;margin:0 auto 1rem}
+.aarp-logo-name{font-size:1.2rem;font-weight:900;color:var(--navy)}
+.aarp-logo-sub{font-size:0.72rem;color:#999}
+.aarp-benefits{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.ab{background:#F8FAFF;border:1px solid #E8F0FE;border-radius:12px;padding:1rem}
+.ab-icon{font-size:1.3rem;margin-bottom:0.5rem}
+.ab h4{font-size:0.85rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem}
+.ab p{font-size:0.75rem;color:#666;line-height:1.5}
+/* SECURITY */
+.security-section{background:var(--navy);padding:5rem 2rem}
+.sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:2.5rem}
+.sec-item{text-align:center;padding:1.5rem}
+.sec-icon{width:60px;height:60px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 1rem}
+.sec-item h3{font-size:0.92rem;font-weight:700;color:white;margin-bottom:0.5rem}
+.sec-item p{font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.6}
+/* CTA */
+.cta-section{padding:5rem 2rem;background:linear-gradient(135deg,#F8FAFF,#E8F0FE);text-align:center}
+.cta-section h2{font-size:2.2rem;font-weight:900;color:var(--navy);margin-bottom:1rem}
+.cta-section p{font-size:1rem;color:#666;margin-bottom:2rem;max-width:550px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+/* FOOTER */
+footer{background:#00195A;padding:3rem 2rem 1.5rem;color:rgba(255,255,255,0.6)}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.footer-brand p{font-size:0.8rem;line-height:1.7;margin-top:0.75rem;color:rgba(255,255,255,0.45)}
+.footer-col h4{font-size:0.82rem;font-weight:700;color:white;margin-bottom:0.85rem}
+.footer-col a{display:block;font-size:0.78rem;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:0.4rem;transition:color 0.2s}
+.footer-col a:hover{color:white}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem}
+.footer-bottom p{font-size:0.72rem;color:rgba(255,255,255,0.3)}
+.footer-badges{display:flex;gap:0.65rem}
+.fb{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.3rem 0.65rem;font-size:0.62rem;color:rgba(255,255,255,0.4)}
+@media(max-width:768px){
+  .hero-inner,.hysa-inner,.fico-inner,.aarp-card,.footer-top{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}
+  .nav-links{display:none}
+  .aarp-benefits{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="window.location.href='barclays-login.html'">
+    <div class="nav-logo-icon">B</div>
+    <div class="nav-brand"><h2>Itrace Bank Financial</h2><p>Digital-First Banking</p></div>
+  </div>
+  <div class="nav-links">
+    <a href="#savings">Savings</a>
+    <a href="#cd">CDs</a>
+    <a href="#fico">FICO® Score</a>
+    <a href="#security">Security</a>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-login" onclick="window.location.href='barclays-login.html'">Sign In</button>
+    <button class="btn-open" onclick="window.location.href='barclays-signup.html'">Open Account</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">🏦 FDIC Insured · Digital-First Banking</div>
+      <h1>Banking Built for<br/><span>Your Financial Future</span></h1>
+      <p>Experience industry-leading savings rates, flexible CDs, free FICO® Score access, and zero-fee accounts — all from the comfort of your home.</p>
+      <div class="hero-btns">
+        <button class="btn-hero-primary" onclick="window.location.href='barclays-signup.html'">🚀 Open Free Account</button>
+        <a href="barclays-login.html" class="btn-hero-secondary">Sign In →</a>
+      </div>
+    </div>
+    <div>
+      <div class="hero-card">
+        <div class="hero-card-top">
+          <div class="hc-bank">BARCLAYS BANK US</div>
+          <div class="hc-chip"></div>
+        </div>
+        <div class="hc-num">•••• •••• •••• 4521</div>
+        <div class="hc-bot">
+          <div class="hc-field"><label>Card Holder</label><strong>ACCOUNT HOLDER</strong></div>
+          <div class="hc-field"><label>Expires</label><strong>12/29</strong></div>
+          <div class="hc-visa">VISA</div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><div class="hs-val">4.35%</div><div class="hs-label">HYSA APY</div></div>
+        <div class="hs"><div class="hs-val">$0</div><div class="hs-label">Monthly Fees</div></div>
+        <div class="hs"><div class="hs-val">Free</div><div class="hs-label">FICO® Score</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="section-badge">⭐ Why Itrace Bank Financial</div>
+    <h2 class="section-title">Everything You Need, Nothing You Don't</h2>
+    <p class="section-sub">Digital-first banking designed to help you save smarter, spend wiser, and grow faster.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#E8F0FE">💰</div>
+        <h3>High-Yield Savings (HYSA)</h3>
+        <p>Earn 4.35% APY — far above the national average. No minimum balance. No monthly fees. Your money works harder for you.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#FFF8E8">📊</div>
+        <h3>Flexible CDs</h3>
+        <p>Lock in competitive rates from 12 to 60 months. Predictable yield, zero service charges, and terms built around your goals.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#E8F4FD">📈</div>
+        <h3>Free FICO® Score</h3>
+        <p>Monitor your official FICO® Credit Score monthly at no cost. Track your progress and understand the factors affecting your score.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#E8FDF5">🔒</div>
+        <h3>Zero Fraud Liability</h3>
+        <p>24/7 account monitoring, instant credit lock/unlock from your app, and 256-bit encryption keep your money safe always.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#F0E8FD">🔄</div>
+        <h3>Automated Savings</h3>
+        <p>Set up recurring transfers to hit your savings goals automatically. The Savings Assistant handles it so you don't have to.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon" style="background:#FDE8E8">🌿</div>
+        <h3>Paperless Banking</h3>
+        <p>100% digital statements, online dispute filing, and custom alerts. Banking that is good for you and the environment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HYSA -->
+<section class="hysa-section" id="savings">
+  <div class="hysa-inner">
+    <div>
+      <div class="hysa-tag">HIGH-YIELD SAVINGS ACCOUNT</div>
+      <h2>Earn More.<br/>Save Smarter.</h2>
+      <p>Our High-Yield Online Savings Account delivers one of the most competitive APYs available — with none of the restrictions that come with traditional banks.</p>
+      <div class="hysa-list">
+        <div class="hysa-item">4.35% APY — far above the 0.46% national average</div>
+        <div class="hysa-item">No minimum balance requirements</div>
+        <div class="hysa-item">No monthly maintenance fees ever</div>
+        <div class="hysa-item">FDIC insured up to $250,000</div>
+        <div class="hysa-item">Interest compounds daily, credited monthly</div>
+        <div class="hysa-item">Automated recurring deposits available</div>
+      </div>
+      <button class="btn-hero-primary" onclick="window.location.href='barclays-signup.html'">Open HYSA Account →</button>
+    </div>
+    <div class="rate-card">
+      <div class="rate-label">Current Annual Percentage Yield</div>
+      <div class="rate-val">4.35%</div>
+      <div class="rate-sub">APY — High-Yield Savings Account</div>
+      <div class="rate-grid">
+        <div class="rg-item"><div class="rg-val">$0</div><div class="rg-label">Min Balance</div></div>
+        <div class="rg-item"><div class="rg-val">$0</div><div class="rg-label">Monthly Fee</div></div>
+        <div class="rg-item"><div class="rg-val">Daily</div><div class="rg-label">Compounding</div></div>
+        <div class="rg-item"><div class="rg-val">$250K</div><div class="rg-label">FDIC Insured</div></div>
+      </div>
+      <div style="background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:0.85rem;text-align:center;font-size:0.75rem;color:rgba(255,255,255,0.6)">
+        National Average: 0.46% APY · You earn <strong style="color:var(--gold)">9x more</strong> with Itrace Bank
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CDs -->
+<section class="cd-section" id="cd">
+  <div class="section-inner">
+    <div class="section-badge">📊 Certificates of Deposit</div>
+    <h2 class="section-title">Lock In Your Rate. Watch It Grow.</h2>
+    <p class="section-sub">Choose the CD term that fits your goals. All terms come with zero monthly fees and guaranteed returns.</p>
+    <div class="cd-grid">
+      <div class="cd-card">
+        <div class="cd-term">12 Months</div>
+        <div class="cd-rate">4.80%</div>
+        <div class="cd-apy">APY</div>
+        <ul class="cd-features">
+          <li>$0 monthly fee</li>
+          <li>$1,000 minimum</li>
+          <li>Fixed rate</li>
+          <li>FDIC insured</li>
+        </ul>
+        <button class="cd-btn" onclick="window.location.href='barclays-signup.html'">Open CD</button>
+      </div>
+      <div class="cd-card">
+        <div class="cd-term">24 Months</div>
+        <div class="cd-rate">4.95%</div>
+        <div class="cd-apy">APY</div>
+        <ul class="cd-features">
+          <li>$0 monthly fee</li>
+          <li>$1,000 minimum</li>
+          <li>Fixed rate</li>
+          <li>FDIC insured</li>
+        </ul>
+        <button class="cd-btn" onclick="window.location.href='barclays-signup.html'">Open CD</button>
+      </div>
+      <div class="cd-card featured">
+        <div class="cd-term">36 Months ⭐ POPULAR</div>
+        <div class="cd-rate">5.10%</div>
+        <div class="cd-apy">APY — Best Rate</div>
+        <ul class="cd-features">
+          <li>$0 monthly fee</li>
+          <li>$1,000 minimum</li>
+          <li>Fixed rate locked</li>
+          <li>FDIC insured</li>
+        </ul>
+        <button class="cd-btn" onclick="window.location.href='barclays-signup.html'">Open CD</button>
+      </div>
+      <div class="cd-card">
+        <div class="cd-term">48 Months</div>
+        <div class="cd-rate">5.05%</div>
+        <div class="cd-apy">APY</div>
+        <ul class="cd-features">
+          <li>$0 monthly fee</li>
+          <li>$1,000 minimum</li>
+          <li>Fixed rate</li>
+          <li>FDIC insured</li>
+        </ul>
+        <button class="cd-btn" onclick="window.location.href='barclays-signup.html'">Open CD</button>
+      </div>
+      <div class="cd-card">
+        <div class="cd-term">60 Months</div>
+        <div class="cd-rate">4.90%</div>
+        <div class="cd-apy">APY</div>
+        <ul class="cd-features">
+          <li>$0 monthly fee</li>
+          <li>$1,000 minimum</li>
+          <li>Fixed rate</li>
+          <li>FDIC insured</li>
+        </ul>
+        <button class="cd-btn" onclick="window.location.href='barclays-signup.html'">Open CD</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FICO -->
+<section class="fico-section" id="fico">
+  <div class="fico-inner">
+    <div class="fico-display">
+      <div class="fico-score-label">Your FICO® Credit Score</div>
+      <div class="fico-score">742</div>
+      <div class="fico-rating">Very Good</div>
+      <div class="fico-bar">
+        <div class="fico-bar-fill"></div>
+        <div class="fico-bar-marker"></div>
+      </div>
+      <div class="fico-range"><span>Poor 300</span><span>Fair</span><span>Good</span><span>Very Good</span><span>Exceptional 850</span></div>
+      <div style="margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:0.85rem;text-align:center"><div style="font-size:0.62rem;color:rgba(255,255,255,0.5);margin-bottom:0.2rem">Updated</div><div style="font-size:0.88rem;font-weight:700;color:white">Monthly</div></div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:0.85rem;text-align:center"><div style="font-size:0.62rem;color:rgba(255,255,255,0.5);margin-bottom:0.2rem">Cost</div><div style="font-size:0.88rem;font-weight:700;color:#34D399">FREE</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-badge">📈 Free FICO® Score Access</div>
+      <h2 class="section-title" style="font-size:1.75rem">Know Your Score.<br/>Own Your Future.</h2>
+      <p style="color:#666;line-height:1.7;margin-bottom:1.5rem">As a Itrace Bank Financial customer, you get free monthly access to your official FICO® Credit Score — the same score lenders use — directly in your dashboard.</p>
+      <ul class="fico-benefits">
+        <li class="fico-benefit">
+          <div class="fico-benefit-icon" style="background:#E8F0FE">📊</div>
+          <div><h4>Official FICO® Score</h4><p>Not an estimate — your real FICO® Score updated every month at no charge.</p></div>
+        </li>
+        <li class="fico-benefit">
+          <div class="fico-benefit-icon" style="background:#E8FDF5">📈</div>
+          <div><h4>Score Trend Tracking</h4><p>See how your score changes over time and understand what is driving improvements.</p></div>
+        </li>
+        <li class="fico-benefit">
+          <div class="fico-benefit-icon" style="background:#FFF8E8">💡</div>
+          <div><h4>Key Factor Analysis</h4><p>Get personalized insights on the key factors affecting your credit score each month.</p></div>
+        </li>
+        <li class="fico-benefit">
+          <div class="fico-benefit-icon" style="background:#FDE8E8">🔔</div>
+          <div><h4>Score Change Alerts</h4><p>Receive instant notifications when your FICO® Score changes significantly.</p></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="security-section" id="security">
+  <div class="section-inner">
+    <div style="text-align:center;margin-bottom:1rem">
+      <div style="display:inline-flex;align-items:center;gap:0.35rem;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.72rem;color:var(--gold);font-weight:700">🔒 Security & Protection</div>
+    </div>
+    <h2 style="font-size:2rem;font-weight:900;color:white;text-align:center;margin-bottom:0.75rem">Your Security Is Our Priority</h2>
+    <p style="text-align:center;color:rgba(255,255,255,0.5);margin-bottom:0">Bank with complete confidence knowing your accounts are protected 24/7</p>
+    <div class="sec-grid">
+      <div class="sec-item">
+        <div class="sec-icon">🔐</div>
+        <h3>256-bit Encryption</h3>
+        <p>Military-grade encryption protects every transaction and piece of personal data on our platform.</p>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">👁️</div>
+        <h3>24/7 Fraud Monitoring</h3>
+        <p>Our AI-powered system monitors your account around the clock for any unusual activity or unauthorized access.</p>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">🛡️</div>
+        <h3>Zero Fraud Liability</h3>
+        <p>You are never responsible for unauthorized transactions. We cover 100% of verified fraudulent charges.</p>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">🔓</div>
+        <h3>Instant Credit Lock</h3>
+        <p>Lock or unlock your credit instantly from your mobile app with a single tap — available 24/7.</p>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">🏦</div>
+        <h3>FDIC Insured</h3>
+        <p>All deposits are insured by the FDIC up to $250,000 per depositor — your money is always protected.</p>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">📱</div>
+        <h3>Biometric Access</h3>
+        <p>Face ID and fingerprint authentication for secure, convenient access to your accounts on mobile.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <h2>Ready to Start Earning More?</h2>
+    <p>Open a free Itrace Bank Financial account in minutes. No paperwork, no branch visits, no fees.</p>
+    <div class="cta-btns">
+      <button class="btn-hero-primary" style="font-size:1rem;padding:1rem 2.5rem" onclick="window.location.href='barclays-signup.html'">🚀 Open Free Account</button>
+      <button class="btn-hero-secondary" style="font-size:1rem;padding:1rem 2.5rem;color:var(--navy);border-color:var(--navy)" onclick="window.location.href='barclays-login.html'">Sign In →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:0.65rem;margin-bottom:0.75rem">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#003087,#00579F);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;color:white">B</div>
+          <div><div style="font-size:0.88rem;font-weight:800;color:white">Itrace Bank Financial</div><div style="font-size:0.6rem;color:rgba(255,255,255,0.4)">Digital-First Banking</div></div>
+        </div>
+        <p>Itrace Bank Financial<br/>[Street address]<br/>[City, postcode]<br/>United Kingdom</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">High-Yield Savings</a>
+        <a href="#">Certificates of Deposit</a>
+        <a href="#">Personal Loans</a>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <a href="#">FICO® Score</a>
+        <a href="#">Savings Assistant</a>
+        <a href="#">CD Calculator</a>
+        <a href="#">Rate Compare</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Security Center</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Itrace Bank Financial · Member FDIC · Equal Housing Lender · Itrace Bank Financial, [Street address], [City, postcode]</p>
+      <div class="footer-badges">
+        <div class="fb">🏦 FDIC</div>
+        <div class="fb">🔒 SSL</div>
+        <div class="fb">⚖️ ECOA</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
