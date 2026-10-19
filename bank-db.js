@@ -19,7 +19,7 @@ const firebaseConfig = {
   storageBucket: "itrace-bank.firebasestorage.app",
   messagingSenderId: "604190445563",
   appId: "1:604190445563:web:b0a3c2a9921aa9774d455e",
-  measurementId: "G-KK82G9Y1WC"
+  measurementId: "G-KK82G9Y2WC"
 };
 
 const app = initializeApp(firebaseConfig);
