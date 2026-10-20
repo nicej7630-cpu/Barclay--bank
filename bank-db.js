@@ -19,7 +19,7 @@ const firebaseConfig = {
   storageBucket: "trace-bank-2.firebasestorage.app",
   messagingSenderId: "298361279013",
   appId: "1:298361279013:web:0a30ad1a3d35a980e8a5cc",
-  measurementId: "G-E8RZ6PBSY9"
+  measurementId: "G-E8RZ6PMSY9"
 };
 
 const app = initializeApp(firebaseConfig);
