@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sign In — Itrace Bank Financial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Inter',sans-serif}
+body{display:flex;min-height:100vh;background:#F8FAFF}
+/* LEFT PANEL */
+.left{width:45%;background:linear-gradient(135deg,#00195A 0%,#003087 60%,#00579F 100%);display:flex;flex-direction:column;justify-content:space-between;padding:3rem;position:relative;overflow:hidden}
+.left::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,0.04) 0%,transparent 70%);border-radius:50%;top:-200px;right:-200px}
+.left::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(0,87,159,0.3) 0%,transparent 70%);border-radius:50%;bottom:-150px;left:-100px}
+.left-logo{display:flex;align-items:center;gap:0.75rem;position:relative;z-index:1}
+.left-logo-icon{width:44px;height:44px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;color:white;font-size:1.2rem}
+.left-logo-text h2{font-size:1rem;font-weight:800;color:white}
+.left-logo-text p{font-size:0.62rem;color:rgba(255,255,255,0.5)}
+.left-content{position:relative;z-index:1}
+.left-content h1{font-size:2.2rem;font-weight:900;color:white;line-height:1.2;margin-bottom:1rem}
+.left-content h1 span{color:#FFD700}
+.left-content p{font-size:0.88rem;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:2rem}
+.left-features{display:flex;flex-direction:column;gap:0.85rem}
+.lf{display:flex;align-items:center;gap:0.75rem}
+.lf-icon{width:36px;height:36px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.lf-text h4{font-size:0.82rem;font-weight:700;color:white;margin-bottom:0.1rem}
+.lf-text p{font-size:0.7rem;color:rgba(255,255,255,0.45)}
+.left-footer{font-size:0.65rem;color:rgba(255,255,255,0.25);position:relative;z-index:1}
+/* RIGHT PANEL */
+.right{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-box{width:100%;max-width:420px}
+.login-box h2{font-size:1.6rem;font-weight:900;color:#00195A;margin-bottom:0.35rem}
+.login-box p{font-size:0.82rem;color:#666;margin-bottom:2rem}
+.fg{margin-bottom:1rem}
+.fg label{display:block;font-size:0.68rem;font-weight:700;color:#00195A;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.38rem}
+.fg input{width:100%;padding:0.85rem 1rem;border:2px solid #E8F0FE;border-radius:10px;font-size:0.9rem;font-family:'Inter',sans-serif;outline:none;transition:all 0.2s;background:white;color:#1a1a2e}
+.fg input::placeholder{color:#aaa}
+.fg input:focus{border-color:#003087;box-shadow:0 0 0 3px rgba(0,48,135,0.08)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:3rem}
+.eye{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:#aaa}
+.eye:hover{color:#003087}
+.forgot{text-align:right;margin-top:-0.5rem;margin-bottom:1rem}
+.forgot a{font-size:0.75rem;color:#003087;text-decoration:none;font-weight:600}
+.forgot a:hover{text-decoration:underline}
+.err{display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:0.85rem 1rem;font-size:0.8rem;color:#DC2626;margin-bottom:1rem;line-height:1.6}
+.susp{display:none;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:0.85rem 1rem;font-size:0.8rem;color:#92400E;margin-bottom:1rem}
+.btn-submit{width:100%;padding:1rem;background:linear-gradient(135deg,#003087,#00579F);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;margin-bottom:1.25rem}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,48,135,0.25)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.divider{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#E8F0FE}
+.divider span{font-size:0.72rem;color:#aaa;white-space:nowrap}
+.signup-link{text-align:center;font-size:0.82rem;color:#666}
+.signup-link a{color:#003087;font-weight:700;text-decoration:none}
+.signup-link a:hover{text-decoration:underline}
+.security-note{display:flex;align-items:center;gap:0.5rem;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:0.75rem;margin-top:1.5rem;font-size:0.72rem;color:#166534}
+@media(max-width:768px){.left{display:none}.right{padding:1.5rem}.login-box{max-width:100%}}
+</style>
+</head>
+<body>
+<div id="google_translate_element" style="position:fixed;bottom:12px;left:12px;z-index:9999"></div>
+<script>
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'',layout:google.translate.TranslateElement.InlineLayout.SIMPLE,autoDisplay:false},'google_translate_element');
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<!-- LEFT -->
+<div class="left">
+  <div class="left-logo">
+    <div class="left-logo-icon">B</div>
+    <div class="left-logo-text"><h2>Itrace Bank Financial</h2><p>Digital-First Banking</p></div>
+  </div>
+  <div class="left-content">
+    <h1>Welcome<br/>Back to<br/><span>Itrace Bank</span></h1>
+    <p>Access your accounts, check your FICO® Score, manage your savings, and more — all in one secure place.</p>
+    <div class="left-features">
+      <div class="lf"><div class="lf-icon">💰</div><div class="lf-text"><h4>4.35% APY Savings</h4><p>Industry-leading High-Yield Savings</p></div></div>
+      <div class="lf"><div class="lf-icon">📊</div><div class="lf-text"><h4>Free FICO® Score</h4><p>Updated monthly at no cost</p></div></div>
+      <div class="lf"><div class="lf-icon">🔒</div><div class="lf-text"><h4>Zero Fraud Liability</h4><p>256-bit encryption & 24/7 monitoring</p></div></div>
+    </div>
+  </div>
+  <div class="left-footer">© 2026 Itrace Bank Financial · Member FDIC · Itrace Bank Financial, 27 Gresham Street, London, EC2V 7HN, United Kingdom</div>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+  <div class="login-box">
+    <h2>Sign In</h2>
+    <p>Enter your account number and password to access your account.</p>
+    <div class="err" id="errMsg"></div>
+    <div class="susp" id="suspMsg">⚠️ Your account has been suspended. Please contact us.</div>
+    <form id="loginForm" autocomplete="on">
+      <div class="fg">
+        <label>Account Number</label>
+        <input type="text" id="accNum" placeholder="BUS-XXXXXXXX" required autocomplete="username"/>
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password"/>
+          <button type="button" class="eye" onclick="togglePw()">👁</button>
+        </div>
+      </div>
+      <div class="forgot"><a href="mailto:bankitrace@gmail.com?subject=Password%20reset">Forgot Password?</a></div>
+      <button type="submit" class="btn-submit" id="loginBtn">Sign In →</button>
+    </form>
+    <div class="divider"><span>New to Itrace Bank Financial?</span></div>
+    <div class="signup-link"><a href="barclays-signup.html">Open a Free Account →</a></div>
+    <div class="security-note">
+      🔒 Your connection is secured with 256-bit SSL encryption. Itrace Bank Financial will never ask for your full password by phone or email.
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { customerSignIn, customerSignOut } from './bank-db.js';
+
+// Account number is always upper case
+document.getElementById('accNum').addEventListener('input', function(){
+  const p = this.selectionStart;
+  this.value = this.value.toUpperCase();
+  try{ this.setSelectionRange(p, p); }catch(e){}
+});
+
+function togglePw(){
+  const f = document.getElementById('password');
+  f.type = f.type === 'password' ? 'text' : 'password';
+}
+window.togglePw = togglePw;
+
+document.getElementById('loginForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const acc = document.getElementById('accNum').value.trim().toUpperCase();
+  const pw = document.getElementById('password').value;
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('errMsg');
+  const susp = document.getElementById('suspMsg');
+  err.style.display = 'none';
+  susp.style.display = 'none';
+
+  if(!acc || !pw){
+    err.style.display = 'block';
+    err.innerHTML = '❌ Please enter your account number and password';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = 'Verifying...';
+
+  try{
+    const cust = await customerSignIn(acc, pw);
+    sessionStorage.setItem('barc_customer', JSON.stringify(Object.assign({}, cust, {accNum: acc})));
+    btn.innerHTML = '✅ Welcome ' + (cust.name || '').split(' ')[0] + '! Loading...';
+    setTimeout(() => window.location.href = 'barclays-dashboard.html', 800);
+  }catch(ex){
+    btn.disabled = false;
+    btn.innerHTML = 'Sign In →';
+    const msg = ex.message || '';
+    const code = ex.code || '';
+
+    if(msg === 'FROZEN'){
+      await customerSignOut();
+      susp.style.display = 'block';
+    }else if(msg.indexOf('ACCOUNT_NOT_FOUND') === 0 || code.includes('invalid-credential') || code.includes('user-not-found') || code.includes('wrong-password') || code.includes('invalid-login')){
+      err.style.display = 'block';
+      err.innerHTML = '❌ Incorrect account number or password.<br/><small style="display:block;margin-top:0.35rem;line-height:1.8;color:#999">✔ Check the account number starts with <strong>BUS-</strong><br/>✔ Check CAPS LOCK is off<br/>✔ Password is case sensitive</small><small style="display:block;margin-top:0.6rem;color:#b45309">Error code: ' + (code || msg) + '</small>';
+    }else if(code.includes('too-many-requests')){
+      err.style.display = 'block';
+      err.innerHTML = '❌ Too many attempts. Please wait a few minutes and try again.';
+    }else{
+      err.style.display = 'block';
+      err.innerHTML = '❌ Sign-in failed. Please try again. <small style="color:#999">(' + (code || msg) + ')</small>';
+    }
+  }
+});
+</script>
+</body>
+</html>
