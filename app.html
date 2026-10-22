@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Add Itrace Bank to your iPhone</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Itrace Bank"/>
+<meta name="theme-color" content="#00195A"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',Arial,sans-serif;background:linear-gradient(160deg,#00195A 0%,#003087 55%,#0B5BD3 100%);color:#fff;min-height:100vh;padding:1.5rem 1.2rem 2.5rem}
+.top{text-align:center;margin-bottom:1.4rem}
+.top img{width:96px;height:96px;border-radius:22px;box-shadow:0 14px 30px rgba(0,0,0,.35)}
+.top h1{font-size:1.7rem;font-weight:900;margin:.9rem 0 .25rem}
+.top p{font-size:1rem;opacity:.85}
+.warn{background:#FFE34D;color:#00195A;border-radius:16px;padding:1rem;font-weight:800;font-size:1rem;text-align:center;margin-bottom:1.2rem;line-height:1.45}
+.card{background:#fff;color:#00195A;border-radius:22px;padding:1.2rem;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.step{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;border-bottom:2px solid #EEF2F8}
+.step:last-child{border-bottom:none}
+.num{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FFE34D,#FFB300);color:#00195A;font-weight:900;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+.step b{display:block;font-size:1.15rem;margin-bottom:.25rem}
+.step span{font-size:1rem;color:#4B5563;line-height:1.5}
+.share{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border:2px solid #00195A;border-radius:12px;font-size:1.4rem;vertical-align:middle;margin:0 .2rem}
+.arrow{text-align:center;font-size:2.4rem;padding:.2rem 0;animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+.done{margin-top:1.2rem;text-align:center;background:rgba(255,255,255,.12);border-radius:16px;padding:1rem;font-size:1rem;line-height:1.5}
+.foot{text-align:center;font-size:.85rem;opacity:.75;margin-top:1.3rem;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <img src="icon-512.png" alt="Itrace Bank"/>
+  <h1>Add Itrace Bank<br/>to your iPhone</h1>
+  <p>Takes about 30 seconds</p>
+</div>
+
+<div class="warn">Use <u>Safari</u> for these steps.<br/>Chrome cannot add apps to an iPhone.</div>
+
+<div class="card">
+  <div class="step">
+    <div class="num">1</div>
+    <div><b>Tap the Share button</b>
+      <span>Look at the bottom of the screen for this square with an arrow pointing up:</span>
+      <div style="margin-top:.5rem"><span class="share">⬆️</span></div>
+    </div>
+  </div>
+  <div class="arrow">⬇️</div>
+  <div class="step">
+    <div class="num">2</div>
+    <div><b>Scroll down the menu</b>
+      <span>Find and tap <b style="display:inline;font-size:1rem">Add to Home Screen</b></span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="num">3</div>
+    <div><b>Tap "Add"</b>
+      <span>Top right of the screen. The Itrace icon now appears on your home screen.</span>
+    </div>
+  </div>
+  <div class="step">
+    <div class="num">4</div>
+    <div><b>Open Itrace from its icon</b>
+      <span>It opens full screen, just like an app.</span>
+    </div>
+  </div>
+</div>
+
+<div class="done">
+  Already added? Just tap the <b>Itrace Bank</b> icon on your home screen.
+</div>
+
+<div class="foot">
+  Need help? bankitrace@gmail.com<br/>
+  Itrace Bank Financial · 27 Gresham Street, London, EC2V 7HN
+</div>
+
+<script>
+// If the page was opened in Chrome on iPhone, remind the customer to use Safari
+if(/CriOS|FxiOS|EdgiOS/.test(navigator.userAgent)){
+  const w = document.querySelector('.warn');
+  w.innerHTML = 'You are not in Safari.<br/>Tap the <u>Share</u> or <u>⋯</u> menu, then choose <u>Open in Safari</u>, and follow the steps below.';
+}
+</script>
+</body>
+</html>
