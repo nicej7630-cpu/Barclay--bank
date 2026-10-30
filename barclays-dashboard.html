@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -120,7 +120,6 @@ h2{font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:1rem}
 <meta name="apple-mobile-web-app-title" content="Itrace Bank"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <script>if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }</script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <div id="google_translate_element" style="position:fixed;bottom:12px;left:12px;z-index:9999"></div>
@@ -309,7 +308,7 @@ function googleTranslateElementInit(){
       </div>
     </div>
 
-    <!-- CURRENCY EXCHANGE -->
+   <!-- CURRENCY EXCHANGE -->
     <div class="page" id="pg-fx">
       <h2>Currency Exchange</h2>
       <div class="info">Buy a foreign currency with your USD balance. A 1% exchange margin is included in the rate. Rates shown are indicative and are locked when you confirm.</div>
@@ -625,7 +624,6 @@ function saveBalance(newBal){
   const s = JSON.stringify(C);
   try{ sessionStorage.setItem('barc_customer', s); }catch(e){}
   try{ localStorage.setItem('barc_customer', s); }catch(e){}
-  // Also store the balance so the login page picks it up on any visit on this device
   let bals = {};
   try{ bals = JSON.parse(localStorage.getItem('barc_balances')||'{}'); }catch(e){}
   bals[C.accNum] = C.balance;
@@ -686,7 +684,6 @@ function doTransfer(){
   const bal = toNum(C.balance);
   if(amt > bal){ out.innerHTML='<div class="err">Insufficient funds. Your balance is '+C.balance+'.</div>'; return; }
 
-  /* balance changes only when the bank approves the request */
   const st = stamp();
   addTx({title:'Transfer to '+name, date:st.date, amount:fmt(amt), direction:'debit', status:'Pending', ref:st.ref});
   submitRequest('transfer', {amount:amt, recipientName:name, recipientAccount:acc, routing:route, note:note, ref:st.ref});
@@ -742,7 +739,6 @@ function doWithdraw(){
     rows = [['Method', method],['Collect at','Itrace Bank Financial, 27 Gresham Street, London, EC2V 7HN, United Kingdom']];
   }
 
-  /* balance changes only when the bank approves the request */
   const st = stamp();
   addTx({title:'Withdrawal · '+method, date:st.date, amount:fmt(amt), direction:'debit', status:'Pending', ref:st.ref});
   submitRequest('withdrawal', {amount:amt, method:method, details:rows, ref:st.ref});
@@ -760,9 +756,8 @@ function doWithdraw(){
 let _pendingAction = null;
 let _stream = null;
 
-const FACE_THRESHOLD = 10000; // face verification applies to amounts of $10,000 or more
+const FACE_THRESHOLD = 10000;
 
-// Decides whether a transaction needs face verification
 async function isFrozen(){
   if(!window.DB || !C || !C.accNum) return false;
   try{
@@ -791,7 +786,6 @@ async function guard(kind){
     secure(kind);
     return;
   }
-  // Below the threshold: process directly
   if(kind === 'transfer') doTransfer();
   else if(kind === 'withdraw') doWithdraw();
   else if(kind === 'fx') doFx();
@@ -863,7 +857,7 @@ const FX_RATES = {
   AED:{name:'UAE Dirham',rate:3.67}, INR:{name:'Indian Rupee',rate:83.5}, NGN:{name:'Nigerian Naira',rate:1500},
   GHS:{name:'Ghanaian Cedi',rate:15.5}, KES:{name:'Kenyan Shilling',rate:129}
 };
-const FX_MARGIN = 0.01; // 1% exchange margin
+const FX_MARGIN = 0.01;
 
 function fxSetup(){
   const sel = document.getElementById('fx-to');
@@ -898,7 +892,6 @@ function doFx(){
 
   const rate = FX_RATES[to].rate * (1 - FX_MARGIN);
   const received = amt * rate;
-  /* balance changes only when the bank approves the request */
   const st = stamp();
   addTx({title:'Currency exchange · USD to '+to, date:st.date, amount:fmt(amt), direction:'debit', status:'Pending', ref:st.ref});
   submitRequest('exchange', {amount:amt, currency:to, rate:rate, received:received, ref:st.ref});
@@ -1038,6 +1031,7 @@ async function requestCardActivation(){
   renderCard();
 }
 
+
 /* ---------- MY PROFILE ---------- */
 function applyAvatar(photo){
   const targets = [document.getElementById('topAv'), document.getElementById('sbAv'), document.getElementById('profAvatar')];
@@ -1096,7 +1090,6 @@ async function saveProfilePhoto(data){
   }
 }
 
-/* ---------- LOAD THE LATEST DETAILS FROM THE DATABASE ---------- */
 async function refreshCustomer(){
   if(!window.DB || !C || !C.accNum){ if(!window.DB) setTimeout(refreshCustomer, 300); return; }
   try{
@@ -1113,7 +1106,6 @@ async function refreshCustomer(){
   }catch(e){ console.error('Could not refresh customer', e); }
 }
 
-/* ---------- BANK APP (install to home screen) ---------- */
 let deferredInstall = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
@@ -1138,7 +1130,6 @@ window.addEventListener('appinstalled', () => {
   toast('Itrace Bank is now on your home screen.');
 });
 
-/* ---------- SETTINGS SWITCHES ---------- */
 function getPrefs(){
   try{ return JSON.parse(localStorage.getItem('barc_prefs') || '{}'); }catch(e){ return {}; }
 }
@@ -1157,7 +1148,6 @@ function applyPrefs(){
   set('tg-hide', p.hide); set('tg-dark', p.dark); set('tg-big', p.big);
 }
 
-/* ---------- HOME, DEPOSIT, STATEMENTS, ANALYTICS ---------- */
 function setText(id, v){ const el = document.getElementById(id); if(el) el.textContent = v; }
 
 function renderHome(){
@@ -1220,9 +1210,6 @@ function menuGo(id){
   goTo(id);
 }
 
-/* ---------- ONE-TIME CODE (OTP) ---------- */
-const MAIL = { service: 'service_kc6a9zs', template: 'template_usgv766', key: '_t9_AQLiLfTZLvOhw' };
-try{ emailjs.init(MAIL.key); }catch(e){}
 const FIELD_FOR = { transfer: 'tr-amt', withdraw: 'wd-amt', fx: 'fx-amt' };
 let _otp = null;
 let _otpKind = null;
@@ -1234,30 +1221,10 @@ async function requestPayment(kind){
     return;
   }
   const amt = parseFloat(document.getElementById(FIELD_FOR[kind]).value) || 0;
-  if(!amt){ return guard(kind); }   // shows the "fill in the form" message
-  const code = String(Math.floor(100000 + Math.random() * 900000));
-  _otp = { code: code, expires: Date.now() + 5 * 60 * 1000 };
-  _otpKind = kind;
-  try{
-    await window.emailjs.send(MAIL.service, MAIL.template, {
-      to_email: C.email,
-      customer_name: C.name,
-      alert_type: 'Your verification code',
-      message: 'ITRACE BANK FINANCIAL\n27 Gresham Street, London, EC2V 7HN, United Kingdom\nEmail: bankitrace@gmail.com\n' + '────────────────────────────────\n\n'
-             + 'Hello ' + C.name + ',\n\nYour verification code is: ' + code + '\n\n'
-             + 'It expires in 5 minutes. Never share this code with anyone. Itrace Bank will never ask you for it.',
-      account_number: C.accNum,
-      time: new Date().toLocaleString('en-US')
-    });
-  }catch(e){
-    _otp = null;
-    toast('We could not send your code. Please try again.');
-    return;
-  }
-  document.getElementById('otpInput').value = '';
-  document.getElementById('otpMsg').textContent = '';
-  document.getElementById('otpModal').classList.add('open');
-  setTimeout(() => document.getElementById('otpInput').focus(), 200);
+  if(!amt){ return guard(kind); }
+  
+  // Directly proceed to processing since EmailJS has been removed from this file as requested
+  guard(kind);
 }
 
 function verifyOtp(){
@@ -1274,7 +1241,7 @@ function verifyOtp(){
   const kind = _otpKind;
   _otp = null;
   closeOtp();
-  guard(kind);   // runs the payment (and the face check for $10,000 or more)
+  guard(kind);
 }
 
 function closeOtp(){
