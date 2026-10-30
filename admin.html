@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_content = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -57,7 +57,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:#1a1a2e;min-heigh
 @media(max-width:700px){.row,.grid,.stats{grid-template-columns:1fr 1fr}}
 </style>
 <link rel="stylesheet" href="itrace-theme.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <div id="google_translate_element" style="position:fixed;bottom:12px;left:12px;z-index:9999"></div>
@@ -102,10 +101,6 @@ function googleTranslateElementInit(){
 
     <!-- OVERVIEW -->
     <div class="pane" id="p-over">
-      <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
-        <div><b style="color:#00195A">Check bank email</b><div style="font-size:.8rem;color:#6B7280">Sends a test message to bankitrace@gmail.com</div></div>
-        <button class="btn g" onclick="sendTestEmail()">Send test email</button>
-      </div>
       <div class="stats">
         <div class="stat"><small>Customers</small><b id="s-cust">0</b></div>
         <div class="stat"><small>Total deposits</small><b id="s-dep">$0.00</b></div>
@@ -231,7 +226,7 @@ async function adminOut(){
   await window.DB.adminSignOut();
   location.reload();
 }
-/* ---- bank details used in customer emails (edit here) ---- */
+/* ---- bank details ---- */
 const BANK = {
   name: 'Itrace Bank Financial',
   address: '27 Gresham Street, London, EC2V 7HN, United Kingdom',
@@ -239,22 +234,6 @@ const BANK = {
   website: 'https://itracebank.org',
   hours: 'Monday to Friday, 9:00 AM to 5:00 PM (GMT)'   // confirm before sending live
 };
-function bankHeader(){
-  return '================================================\n'
-       + BANK.name.toUpperCase() + '\n'
-       + BANK.address + '\n'
-       + 'Email: ' + BANK.email + '   |   ' + BANK.website + '\n'
-       + '================================================\n\n';
-}
-function bankFooter(){
-  return '\n\n------------------------------------------------\n'
-       + 'NOTICE: Keep your account number and password private. '
-       + 'Our staff will never ask for your password by phone, email or text.\n\n'
-       + 'Working hours: ' + BANK.hours + '\n'
-       + 'Support: ' + BANK.email + '\n'
-       + BANK.name + '\n'
-       + BANK.address;
-}
 
 function isAdmin(){
   const u = window.DB && window.DB.auth.currentUser;
@@ -290,22 +269,6 @@ async function refreshBadges(){
   }catch(e){ console.error('Badge check failed', e); }
 }
 setInterval(refreshBadges, 60000);
-
-async function sendTestEmail(){
-  try{
-    await window.emailjs.send(window.MAIL.service, window.MAIL.template, {
-      to_email: 'bankitrace@gmail.com',
-      customer_name: 'Test',
-      alert_type: 'Test email',
-      message: 'ITRACE BANK FINANCIAL\nThis is a test message from the admin page. If you can read this, bank notifications are working.',
-      account_number: 'TEST',
-      time: new Date().toLocaleString('en-US')
-    });
-    alert('Test email sent. Check bankitrace@gmail.com (and the spam folder).');
-  }catch(e){
-    alert('The test email failed: ' + (e.text || e.message || e) + '\n\nCheck the EmailJS template (see the notes).');
-  }
-}
 
 function showApp(){
   document.getElementById('gate').classList.add('hide');
@@ -356,7 +319,6 @@ function currentBalance(acc){
 }
 
 /* ---- applications ---- */
-/* ---- applications (from the website, stored online) ---- */
 async function renderApps(){
   const box = document.getElementById('appList');
   if(!box) return;
@@ -412,29 +374,8 @@ async function approveApp(id){
       joined: joined, status: 'Active'
     });
     await window.DB.updateApplication(id, {status: 'Approved', approvedAt: joined});
-    const balText = money(Number(a.openingDeposit) || 0);
-    let emailNote = '';
-    try{
-      await window.emailjs.send(window.MAIL.service, window.MAIL.template, {
-        to_email: a.email,
-        customer_name: a.name,
-        alert_type: '✅ Your account is approved',
-        message: bankHeader() + 'Dear ' + a.name + ',\n\nYour Itrace Bank Financial account has been approved.\n\n'
-               + 'Account number: ' + a.accNum + '\n'
-               + 'Account type: ' + (a.accountType === 'CD' ? 'Certificate of Deposit (CD)' : 'High-Yield Savings (HYSA)') + '\n'
-               + 'Routing number: ' + sort + '\n'
-               + 'Opening balance: ' + balText + '\n\n'
-               + 'Sign in at https://itracebank.org/barclays-login.html\n\n'
-               + 'Your password will be given to you separately by our team. Do not share it with anyone.\n\n'
-               + 'Sign in with your account number at the link above.' + bankFooter(),
-        account_number: a.accNum,
-        time: new Date().toLocaleString('en-US')
-      });
-      emailNote = '\n\nAn email with the account details was sent to ' + a.email + '.';
-    }catch(e){
-      emailNote = '\n\nThe customer email could not be sent. Send the details manually.';
-    }
-    alert('Approved. The account is in the database.' + emailNote + '\n\nNow create the sign-in:\n1. Firebase -> Authentication -> Users -> Add user\n2. Email: ' + a.accNum.toLowerCase() + '@accounts.itracebank.org\n3. Password: ' + pw + '\n\nThe customer signs in with ' + a.accNum + ' and this password.');
+    
+    alert('Approved. The account is in the database.\n\nNow create the sign-in:\n1. Firebase -> Authentication -> Users -> Add user\n2. Email: ' + a.accNum.toLowerCase() + '@accounts.itracebank.org\n3. Password: ' + pw + '\n\nThe customer signs in with ' + a.accNum + ' and this password.');
     await loadFromDB();
     renderApps(); renderCust(); renderOverview();
   }catch(e){
@@ -536,7 +477,6 @@ function showCurBal(){
 }
 
 /* ---- balance adjustment ---- */
-/* ---- all data from the database (customers, transactions, requests) ---- */
 async function refreshAllData(){
   const txs = [], reqs = [];
   for(const acc of Object.keys(allCustomers())){
@@ -589,7 +529,6 @@ function applyBal(){
   bals[acc] = newBal;
   save(K_BAL, bals);
 
-  // Keep the customer's own transaction list in step (works on this browser)
   const d = new Date();
   const tx = {
     title: (type==='credit'?'Credit: ':'Debit: ')+note,
@@ -615,11 +554,9 @@ function applyBal(){
   showCurBal();
   renderCust();
 
-  // Give the GitHub update for this customer's new balance
   showCode(acc, Object.assign({}, c, {balance:newBal}));
 }
 
-/* ---- helpers to read every customer's data stored in this browser ---- */
 function keysWith(prefix){
   return Object.keys(localStorage).filter(k => k.indexOf(prefix) === 0);
 }
@@ -893,10 +830,6 @@ function copyCode(){
 <script type="module">
 import * as DB from './bank-db.js';
 window.DB = DB;
-// Email service (EmailJS). Replace with your own Itrace EmailJS details before selling.
-const MAIL = { service: 'service_kc6a9zs', template: 'template_usgv766', key: '_t9_AQLiLfTZLvOhw' };
-try{ window.emailjs.init(MAIL.key); }catch(e){}
-window.MAIL = MAIL;
 </script>
 </body>
 </html>
